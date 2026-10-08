@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --background-image-header-mobile: url("../assets/suggestions/mobile/background-header.png");
+  --background-image-header-tablet: url("../assets/suggestions/tablet/background-header.png");
+  --background-image-header-desktop: url("../assets/suggestions/desktop/background-header.png");
+}
+
+@layer base {
+  body {
+    font-family: "Jost", sans-serif;
+    background: #f2f4ff;
+  }
+}
+
+@layer components {
+}

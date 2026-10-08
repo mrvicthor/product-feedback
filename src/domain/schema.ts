@@ -1,5 +1,4 @@
 import * as z from "zod";
-import type { DropdownOption } from "../components/sortDropdown";
 
 export const CATEGORIES = [
   "ui",
@@ -15,12 +14,14 @@ export const STATUSES = [
   "live",
 ] as const;
 
-export const sortOptions: DropdownOption<string>[] = [
-  { label: "most upvotes", value: "Most Upvotes" },
-  { label: "least upvotes", value: "Least Upvotes" },
-  { label: "most comments", value: "Most Comments" },
-  { label: "least comments", value: "Least Comments" },
-];
+export const SORT_OPTIONS = [
+  { value: "most_upvotes", label: "Most Upvotes" },
+  { value: "least_upvotes", label: "Least Upvotes" },
+  { value: "most_comments", label: "Most Comments" },
+  { value: "least_comments", label: "Least Comments" },
+] as const;
+
+export type SortBy = (typeof SORT_OPTIONS)[number]["value"];
 
 export const categorySchema = z.enum(CATEGORIES);
 export const statusSchema = z.enum(STATUSES);

@@ -1,6 +1,10 @@
 import { useReducer, useState, type ReactNode } from "react";
 import { FeedbackContext } from "./feedback-context";
-import { productRequestSchema, sortOptions } from "../domain/schema";
+import {
+  productRequestSchema,
+  SORT_OPTIONS,
+  type SortBy,
+} from "../domain/schema";
 import { feedbackReducer } from "../domain/feedback";
 import { z } from "zod";
 import data from "../data.json";
@@ -15,7 +19,7 @@ export default function FeedbackProvider({
   children: ReactNode;
 }) {
   const [openSortBy, setOpenSortBy] = useState(false);
-  const [sortBy, setSortBy] = useState(sortOptions[0].label);
+  const [sortBy, setSortBy] = useState<SortBy>(SORT_OPTIONS[0].value);
   const [state, dispatch] = useReducer(feedbackReducer, initialState);
   return (
     <FeedbackContext.Provider

@@ -1,16 +1,30 @@
-import type { Category, ProductRequest } from "./schema";
+import type { Category, ProductRequest, SortBy } from "./schema";
 
 export type FeedbackData = {
   feedbacks: ProductRequest[];
 };
 
-export type ActionType = {
-  type: "add_feedback";
-  id: number;
-  title: string;
-  category: Category;
-  description: string;
-};
+export type ActionType =
+  | {
+      type: "add_feedback";
+      id: number;
+      title: string;
+      category: Category;
+      description: string;
+    }
+  | {
+      type: "sort";
+      sortBy: SortBy;
+    }
+  | {
+      type: "least_upvotes";
+    }
+  | {
+      type: "most_comments";
+    }
+  | {
+      type: "least_comments";
+    };
 
 export function feedbackReducer(
   state: FeedbackData,
@@ -33,8 +47,26 @@ export function feedbackReducer(
         ],
       };
     }
+    case "sort": {
+      return {
+        ...state,
+        feedbacks: [
+          ...state.feedbacks.sort((a, b) => {
+            if (action.sortBy === "most_upvotes") return b.upvotes - a.upvotes;
+            if (action.sortBy === "least_upvotes") return a.upvotes - b.upvotes;
+            if (!a.comments || !b.comments) {
+              return b.upvotes - a.upvotes;
+            } else {
+              return action.sortBy === "least_comments"
+                ? a.comments.length - b.comments.length
+                : b.comments.length - a.comments.length;
+            }
+          }),
+        ],
+      };
+    }
     default: {
-      throw new Error("Unknow action type: ", action.type);
+      throw new Error(`Unknown action type: ${(action as ActionType).type}`);
     }
   }
 }

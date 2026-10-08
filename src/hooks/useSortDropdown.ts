@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import type { DropdownOption } from "../components/sortDropdown";
+import type { SortBy } from "../domain/schema";
 
-export function useSortDropdown<T extends string>(
+export function useSortDropdown<T extends SortBy>(
   options: readonly DropdownOption<T>[],
   value: T,
   onChange: (value: T) => void,

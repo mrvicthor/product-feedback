@@ -1,11 +1,13 @@
+import type { SortBy } from "../domain/schema";
+import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import { useSortDropdown } from "../hooks/useSortDropdown";
 
-export type DropdownOption<T extends string> = {
+export type DropdownOption<T extends SortBy> = {
   value: T;
   label: string;
 };
 
-type SortDropdownProps<T extends string> = {
+type SortDropdownProps<T extends SortBy> = {
   options: readonly DropdownOption<T>[];
   value: T;
   onChange: (value: T) => void;
@@ -18,7 +20,7 @@ type SortDropdownProps<T extends string> = {
  * Focus stays on the button; the highlighted option is announced through
  * aria-activedescendant, so screen readers follow it without focus moving.
  */
-export function SortDropdown<T extends string>({
+export function SortDropdown<T extends SortBy>({
   options,
   value,
   onChange,
@@ -40,6 +42,7 @@ export function SortDropdown<T extends string>({
     close,
     open,
   } = useSortDropdown(options, value, onChange, setIsOpen, isOpen);
+  const { dispatch } = useFeedbackContext();
 
   return (
     <div ref={rootRef} className="relative inline-block">
@@ -60,7 +63,9 @@ export function SortDropdown<T extends string>({
         onBlur={close}
         className="flex items-center cursor-pointer gap-2 rounded-md px-2 py-1 text-sm text-[#F2F4FE] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
-        <span id={labelId}>Sort by : </span>
+        <span id={labelId} className="text-sm">
+          Sort by :{" "}
+        </span>
         <span className="font-bold capitalize">{selectedOption.label}</span>
         <svg
           aria-hidden="true"
@@ -98,13 +103,16 @@ export function SortDropdown<T extends string>({
               id={optionId(index)}
               role="option"
               aria-selected={isSelected}
-              onClick={() => select(index)}
+              onClick={() => {
+                select(index);
+                dispatch({ type: "sort", sortBy: option.value });
+              }}
               onMouseMove={() => setActiveIndex(index)}
-              className={`flex cursor-pointer items-center justify-between px-6 py-3 ${
+              className={`flex cursor-pointer items-center justify-between px-6 py-3 capitalize ${
                 isActive ? "text-[#AD1FEA]" : "text-[#647196]"
               }`}
             >
-              {option.value}
+              {option.label}
               {isSelected && (
                 <svg
                   aria-hidden="true"

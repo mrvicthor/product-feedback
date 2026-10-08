@@ -1,7 +1,7 @@
 import logoIcon from "/assets/suggestions/icon-suggestions.svg";
 import plusIcon from "/assets/shared/icon-plus.svg";
 import { SortDropdown } from "./sortDropdown";
-import { sortOptions } from "../domain/schema";
+import { SORT_OPTIONS } from "../domain/schema";
 
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 const Header = () => {
@@ -21,10 +21,12 @@ const Header = () => {
       <div>
         <img src={logoIcon} />
       </div>
-      <h3>{suggestionsLength} suggestions</h3>
+      <h3 className="text-white text-lg font-bold">
+        {suggestionsLength} suggestions
+      </h3>
 
       <SortDropdown
-        options={sortOptions}
+        options={SORT_OPTIONS}
         value={sortBy}
         onChange={setSortBy}
         isOpen={openSortBy}

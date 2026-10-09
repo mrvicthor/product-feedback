@@ -1,8 +1,8 @@
 import * as z from "zod";
 
 export const CATEGORIES = [
-  "ui",
-  "ux",
+  "UI",
+  "UX",
   "enhancement",
   "bug",
   "feature",

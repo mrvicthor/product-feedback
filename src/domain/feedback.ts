@@ -15,15 +15,6 @@ export type ActionType =
   | {
       type: "sort";
       sortBy: SortBy;
-    }
-  | {
-      type: "least_upvotes";
-    }
-  | {
-      type: "most_comments";
-    }
-  | {
-      type: "least_comments";
     };
 
 export function feedbackReducer(

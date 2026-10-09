@@ -32,7 +32,6 @@ export function useSortDropdown<T extends SortBy>(
   function open(index = selectedIndex) {
     setActiveIndex(index);
     setIsOpen(true);
-    console.log({ isOpen });
   }
 
   function close() {

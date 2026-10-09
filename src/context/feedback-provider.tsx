@@ -1,6 +1,7 @@
 import { useReducer, useState, type ReactNode } from "react";
 import { FeedbackContext } from "./feedback-context";
 import {
+  type Category,
   productRequestSchema,
   SORT_OPTIONS,
   type SortBy,
@@ -21,9 +22,25 @@ export default function FeedbackProvider({
   const [openSortBy, setOpenSortBy] = useState(false);
   const [sortBy, setSortBy] = useState<SortBy>(SORT_OPTIONS[0].value);
   const [state, dispatch] = useReducer(feedbackReducer, initialState);
+  const [openCreateForm, setOpenCreateForm] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState<Category>("feature");
+  const [openFeatures, setOpendFeatures] = useState(false);
   return (
     <FeedbackContext.Provider
-      value={{ openSortBy, setOpenSortBy, setSortBy, sortBy, state, dispatch }}
+      value={{
+        openSortBy,
+        setOpenSortBy,
+        setSortBy,
+        sortBy,
+        state,
+        dispatch,
+        openCreateForm,
+        setOpenCreateForm,
+        selectedFeature,
+        setSelectedFeature,
+        openFeatures,
+        setOpendFeatures,
+      }}
     >
       {children}
     </FeedbackContext.Provider>

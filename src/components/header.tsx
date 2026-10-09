@@ -4,6 +4,7 @@ import { SortDropdown } from "./sortDropdown";
 import { SORT_OPTIONS } from "../domain/schema";
 
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
+import { Link } from "react-router";
 const Header = () => {
   const {
     sortBy,
@@ -32,9 +33,13 @@ const Header = () => {
         isOpen={openSortBy}
         setIsOpen={setOpenSortBy}
       />
-      <button className="ml-auto flex py-3 text-white gap-2 capitalize items-center bg-[#C75AF6] px-5 cursor-pointer rounded-[10px] text-sm font-bold">
+      <Link
+        className="ml-auto flex py-3 text-white gap-2 capitalize items-center bg-[#C75AF6] px-5 cursor-pointer rounded-[10px] text-sm font-bold"
+        to="/add-feedback"
+      >
+        {" "}
         <img src={plusIcon} className="w-3 h-3" /> add feedback
-      </button>
+      </Link>
     </header>
   );
 };

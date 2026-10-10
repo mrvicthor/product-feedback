@@ -1,9 +1,11 @@
 import { Check, ChevronDown } from "lucide-react";
-import { CATEGORIES } from "../../domain/schema";
+import { CATEGORIES, type Category } from "../../domain/schema";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 
-const CustomSelectField = () => {
+type Props = { value: Category; onChange: (value: Category) => void };
+
+const CustomSelectField = ({ value, onChange }: Props) => {
   const {
     selectedFeature,
     openFeatures,
@@ -17,7 +19,7 @@ const CustomSelectField = () => {
   const selectedIndex = Math.max(
     0,
     CATEGORIES.findIndex(
-      (category) => category.toLowerCase() === selectedFeature.toLowerCase(),
+      (category) => category.toLowerCase() === value.toLowerCase(),
     ),
   );
 
@@ -37,16 +39,14 @@ const CustomSelectField = () => {
 
   const handleSelect = (index: number) => {
     setSelectedFeature(CATEGORIES[index]);
+    onChange(CATEGORIES[index]);
     setOpendFeatures(false);
-    console.log({ openFeatures });
   };
 
   function handleKeydown(e: KeyboardEvent<HTMLButtonElement>) {
     const { key, altKey, ctrlKey, metaKey } = e;
     console.log({ key });
     if (!openFeatures) {
-      setOpendFeatures(true);
-      e.preventDefault();
       switch (key) {
         case "ArrowDown":
         case "ArrowUp":
@@ -99,7 +99,7 @@ const CustomSelectField = () => {
           return;
         case "Escape":
           e.preventDefault();
-          close();
+          setOpendFeatures(false);
           return;
         case "Tab":
           handleSelect(activeIndex);
@@ -167,7 +167,7 @@ const CustomSelectField = () => {
           if (event.key === "  ") event.preventDefault();
         }}
         onClick={handleClick}
-        className={`mt-4 flex h-12 w-full cursor-pointer items-center justify-between rounded-[5px] border bg-[#F7F8FD] px-6 text-[15px] text-[#3A4374] capitalize outline-none focus-visible:border-[#4661E6] ${
+        className={`hover:border hover:border-[#4661E6] mt-4 flex h-12 w-full cursor-pointer items-center justify-between rounded-[5px] border bg-[#F7F8FD] px-6 text-[15px] text-[#3A4374] capitalize outline-none focus-visible:border-[#4661E6] ${
           openFeatures ? "border-[#4661E6]" : "border-transparent"
         }`}
       >
@@ -196,6 +196,10 @@ const CustomSelectField = () => {
               <li
                 key={index}
                 role="option"
+                id={optionId(index)}
+                aria-selected={index === selectedIndex}
+                onClick={() => handleSelect(index)}
+                onMouseMove={() => setActiveIndex(index)}
                 className={`flex cursor-pointer items-center justify-between px-6 py-3 text-base text-[#647196] capitalize hover:text-[#AD1FEA] ${activeIndex === index && "text-[#AD1FEA]"}`}
               >
                 {category}

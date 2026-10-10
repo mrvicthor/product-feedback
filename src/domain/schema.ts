@@ -89,3 +89,5 @@ export const addFeedbackSchema = z.object({
     .min(5, EMPTY)
     .max(500, "Feedback detail must be 500 characters or fewer"),
 });
+
+export type AddFeedbackDTO = z.infer<typeof addFeedbackSchema>;

@@ -1,9 +1,19 @@
 import { CATEGORIES, type Category } from "../domain/schema";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
+import RoadmapCard from "./roadmapCard";
 
 const Sidebar = () => {
-  const { setSelectedFeature, setFilterBy, filterBy } = useFeedbackContext();
-
+  const {
+    setSelectedFeature,
+    setFilterBy,
+    filterBy,
+    state: { feedbacks },
+  } = useFeedbackContext();
+  const plannedTotal = feedbacks.filter((f) => f.status === "planned").length;
+  const inProgressTotal = feedbacks.filter(
+    (f) => f.status === "in-progress",
+  ).length;
+  const liveTotal = feedbacks.filter((f) => f.status === "live").length;
   return (
     <section className="col-span-1 flex flex-col gap-6">
       <div className="bg-header-mobile md:bg-header-tablet lg:bg-header-desktop bg-center bg-no-repeat bg-cover flex h-34.25 flex-col justify-end rounded-[10px] p-6">
@@ -33,16 +43,11 @@ const Sidebar = () => {
           </button>
         ))}
       </div>
-      <div className="bg-white p-6 rounded-[10px]">
-        <div className="flex justify-between items-center">
-          <h2 className="text-[#3A4374] font-bold text-lg tracking-[-0.25px]">
-            Roadmap
-          </h2>
-          <a href="#" className="text-[#4661E6]">
-            view
-          </a>
-        </div>
-      </div>
+      <RoadmapCard
+        plannedTotal={plannedTotal}
+        inProgressTotal={inProgressTotal}
+        liveTotal={liveTotal}
+      />
     </section>
   );
 };

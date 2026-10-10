@@ -18,13 +18,13 @@ const Feedback = ({
       {...ariaAttributes}
       className={`${isFirst ? "" : "pt-5"}`}
     >
-      <div className="h-full rounded-[10px] bg-white max-w-214 py-7 px-8 flex gap-10 justify-between group cursor-pointer">
+      <div className="h-full w-full rounded-[10px] bg-white py-7 px-8 flex gap-10 justify-between group cursor-pointer">
         <button className="w-10 h-13.25 bg-[#F2F4FE] rounded-xl flex flex-col items-center">
           {" "}
           <ChevronUp />{" "}
           <span className="font-bold text-[13px]">{feedback.upvotes}</span>
         </button>
-        <article className="flex-1">
+        <article className="flex-1 min-w-0">
           <h3 className="font-bold text-lg text-[#3A4374] group-hover:text-[#4661E6]">
             {feedback.title}
           </h3>

@@ -12,7 +12,7 @@ const RoadmapCard = ({
   liveTotal,
 }: RoadmapCardProps) => {
   return (
-    <div className="bg-white p-6 rounded-[10px]">
+    <div className="bg-white p-6 rounded-[10px] flex-1 hidden md:block">
       <div className="flex justify-between items-center">
         <h2 className="text-[#3A4374] font-bold text-lg tracking-[-0.25px]">
           Roadmap

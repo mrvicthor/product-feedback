@@ -10,7 +10,7 @@ const Feedbacks = ({ feedbacks }: Props) => {
   const ROW_GAP = 20;
 
   return (
-    <div className="mt-6 fixed max-h-[80vh] w-full overflow-auto">
+    <div className="mt-6 flex-1 w-full min-h-0 px">
       <List
         rowHeight={(index) => (index === 0 ? ROW_HEIGHT : ROW_HEIGHT + ROW_GAP)}
         rowCount={feedbacks.length}

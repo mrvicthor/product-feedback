@@ -25,6 +25,8 @@ export type FeedbackContextType = {
   setFilterBy: React.Dispatch<
     React.SetStateAction<"UI" | "UX" | "enhancement" | "bug" | "feature" | null>
   >;
+  openMobileMenu: boolean;
+  setOpenMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const FeedbackContext = createContext<FeedbackContextType | undefined>(

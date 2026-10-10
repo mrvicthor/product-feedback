@@ -21,6 +21,10 @@ export type FeedbackContextType = {
   >;
   openFeatures: boolean;
   setOpendFeatures: React.Dispatch<React.SetStateAction<boolean>>;
+  filterBy: "UI" | "UX" | "enhancement" | "bug" | "feature" | null;
+  setFilterBy: React.Dispatch<
+    React.SetStateAction<"UI" | "UX" | "enhancement" | "bug" | "feature" | null>
+  >;
 };
 
 export const FeedbackContext = createContext<FeedbackContextType | undefined>(

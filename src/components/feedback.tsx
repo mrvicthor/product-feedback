@@ -11,6 +11,7 @@ const Feedback = ({
 }: RowComponentProps<{ feedbacks: ProductRequest[] }>) => {
   const feedback = feedbacks[index];
   const isFirst = index === 0;
+
   return (
     <div
       style={style}

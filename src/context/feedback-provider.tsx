@@ -25,6 +25,7 @@ export default function FeedbackProvider({
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<Category>("feature");
   const [openFeatures, setOpendFeatures] = useState(false);
+  const [filterBy, setFilterBy] = useState<Category | null>(null);
   return (
     <FeedbackContext.Provider
       value={{
@@ -40,6 +41,8 @@ export default function FeedbackProvider({
         setSelectedFeature,
         openFeatures,
         setOpendFeatures,
+        filterBy,
+        setFilterBy,
       }}
     >
       {children}

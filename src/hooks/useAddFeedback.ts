@@ -6,6 +6,7 @@ import {
 } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFeedbackContext } from "./useFeedbackContext";
+import { toast } from "react-toastify";
 
 export function useAddFeedback() {
   const {
@@ -13,6 +14,7 @@ export function useAddFeedback() {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<AddFeedbackDTO>({
     resolver: zodResolver(addFeedbackSchema),
     defaultValues: {
@@ -36,6 +38,8 @@ export function useAddFeedback() {
       category,
       description,
     });
+    reset();
+    toast.success("New feedback added successfully");
   };
   return {
     register,

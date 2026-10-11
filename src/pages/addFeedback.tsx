@@ -4,6 +4,7 @@ import CustomSelectField from "../components/forms/customSelectField";
 import iconNewFeature from "/assets/shared/icon-new-feedback.svg";
 import { Controller } from "react-hook-form";
 import { useAddFeedback } from "../hooks/useAddFeedback";
+import { ToastContainer } from "react-toastify";
 
 const AddFeedback = () => {
   const { handleSubmit, onSubmit, control, register, errors } =
@@ -107,6 +108,7 @@ const AddFeedback = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </section>
   );
 };

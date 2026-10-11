@@ -21,21 +21,21 @@ const Sidebar = () => {
   return (
     <>
       <section className="lg:col-span-1 flex lg:flex-col gap-2.5 lg:gap-6 shrink-0">
-        <div className="flex-1 bg-header-mobile md:bg-header-tablet lg:bg-header-desktop bg-center bg-no-repeat bg-cover flex justify-between md:rounded-[10px] p-6">
-          <div>
+        <div className="flex-1 lg:flex-none lg:h-34.25 bg-header-mobile md:bg-header-tablet lg:bg-header-desktop bg-center bg-no-repeat bg-cover flex justify-between md:rounded-[10px] p-6">
+          <div className="md:flex md:justify-end md:flex-col">
             <h1 className="text-xl font-bold text-white">Frontend Mentor</h1>
             <p className="text-[15px] font-medium text-white/75">
               Feedback Board
             </p>
           </div>
           <button
-            className="cursor-pointer"
+            className="cursor-pointer md:hidden"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}
           >
             <img src={openMobileMenu ? closeIcon : menuIcon} />
           </button>
         </div>
-        <div className="bg-white hidden md:flex-1 rounded-[10px] p-6 md:flex gap-x-2 gap-y-3.5 flex-wrap">
+        <div className="bg-white hidden md:flex-1 lg:flex-none rounded-[10px] p-6 md:flex gap-x-2 gap-y-3.5 flex-wrap">
           <button
             onClick={() => {
               setFilterBy(null);

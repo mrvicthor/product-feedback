@@ -21,9 +21,9 @@ const Home = () => {
     [feedbacks, filterBy],
   );
   return (
-    <main className="max-w-6xl mx-auto h-screen lg:grid lg:grid-cols-4 md:py-6 md:space-y-10 lg:space-y-0 lg:gap-x-7.5 md:px-6 overflow-hidden">
+    <main className="max-w-6xl mx-auto h-dvh lg:grid lg:grid-cols-4 md:py-6 md:space-y-10 lg:space-y-0 lg:gap-x-7.5 md:px-6 overflow-hidden">
       <Sidebar />
-      <section className="col-span-3 flex flex-col min-w-0 min-h-0">
+      <section className="col-span-3 flex flex-1 flex-col min-w-0 min-h-0">
         <Header />
         {visibleFeedbacks.length === 0 ? (
           <EmptyFeedback />

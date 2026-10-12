@@ -5,6 +5,7 @@ import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import type { ProductRequest } from "../domain/schema";
 import CommentsIcon from "/assets/shared/icon-comments.svg";
 import { CommentItem } from "../components/commentItem";
+import NotFound from "../components/notFound";
 
 type Comment = NonNullable<ProductRequest["comments"]>[number];
 type Reply = NonNullable<Comment["replies"]>[number];
@@ -27,14 +28,7 @@ const Details = () => {
   const detail = feedbacks.find((f) => f.id === Number(id));
 
   if (!detail) {
-    return (
-      <div className="mx-auto max-w-182.5 px-6 py-14 text-[#3A4374]">
-        <p className="font-bold">Feedback not found.</p>
-        <Link to="/" className="text-[#4661E6] font-semibold text-sm">
-          Go back home
-        </Link>
-      </div>
-    );
+    return <NotFound />;
   }
 
   const { upvotes, title, description, category, comments = [] } = detail;

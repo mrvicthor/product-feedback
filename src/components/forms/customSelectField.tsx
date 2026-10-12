@@ -1,52 +1,48 @@
 import { Check, ChevronDown } from "lucide-react";
-import { CATEGORIES, type Category } from "../../domain/schema";
-import { useFeedbackContext } from "../../hooks/useFeedbackContext";
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useId, useRef, type KeyboardEvent } from "react";
 
-type Props = { value: Category; onChange: (value: Category) => void };
+type Props = {
+  selectedIndex: number;
+  label: string;
+  description: string;
+  options: string[];
+  activeIndex: number;
+  toggleMenu: () => void;
+  open: (index?: number) => void;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  handleSelect: (index: number) => void;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedOption: string;
+};
 
-const CustomSelectField = ({ value, onChange }: Props) => {
-  const {
-    selectedFeature,
-    openFeatures,
-    setOpendFeatures,
-    setSelectedFeature,
-  } = useFeedbackContext();
+const CustomSelectField = ({
+  label,
+  description,
+  options,
+  selectedIndex,
+  activeIndex,
+  toggleMenu,
+  open,
+  setActiveIndex,
+  handleSelect,
+  isOpen,
+  setIsOpen,
+  selectedOption,
+}: Props) => {
   const id = useId();
   const labelId = `${id}-label`;
   const listboxId = `${id}-listbox`;
   const optionId = (index: number) => `${id}-option-${index}`;
-  const selectedIndex = Math.max(
-    0,
-    CATEGORIES.findIndex(
-      (category) => category.toLowerCase() === value.toLowerCase(),
-    ),
-  );
 
   const menuRef = useRef<HTMLUListElement | null>(null);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const typeahead = useRef({ query: "", timeout: 0 });
-  const [activeIndex, setActiveIndex] = useState(selectedIndex);
-
-  const handleClick = () => {
-    setOpendFeatures((prev) => !prev);
-  };
-
-  const open = (index = selectedIndex) => {
-    setActiveIndex(index);
-    setOpendFeatures(true);
-  };
-
-  const handleSelect = (index: number) => {
-    setSelectedFeature(CATEGORIES[index]);
-    onChange(CATEGORIES[index]);
-    setOpendFeatures(false);
-  };
 
   function handleKeydown(e: KeyboardEvent<HTMLButtonElement>) {
     const { key, altKey, ctrlKey, metaKey } = e;
-    console.log({ key });
-    if (!openFeatures) {
+
+    if (!isOpen) {
       switch (key) {
         case "ArrowDown":
         case "ArrowUp":
@@ -61,7 +57,7 @@ const CustomSelectField = ({ value, onChange }: Props) => {
           return;
         case "End":
           e.preventDefault();
-          open(CATEGORIES.length - 1);
+          open(options.length - 1);
           return;
       }
     } else {
@@ -71,7 +67,7 @@ const CustomSelectField = ({ value, onChange }: Props) => {
             handleSelect(activeIndex);
           } else {
             setActiveIndex((prev) =>
-              prev === CATEGORIES.length - 1 ? 0 : prev + 1,
+              prev === options.length - 1 ? 0 : prev + 1,
             );
           }
           return;
@@ -80,7 +76,7 @@ const CustomSelectField = ({ value, onChange }: Props) => {
             handleSelect(activeIndex);
           } else {
             setActiveIndex((prev) =>
-              prev === 0 ? CATEGORIES.length - 1 : prev - 1,
+              prev === 0 ? options.length - 1 : prev - 1,
             );
           }
           return;
@@ -95,11 +91,11 @@ const CustomSelectField = ({ value, onChange }: Props) => {
           return;
         case "End":
           e.preventDefault();
-          setActiveIndex(CATEGORIES.length - 1);
+          setActiveIndex(options.length - 1);
           return;
         case "Escape":
           e.preventDefault();
-          setOpendFeatures(false);
+          setIsOpen(false);
           return;
         case "Tab":
           handleSelect(activeIndex);
@@ -112,16 +108,16 @@ const CustomSelectField = ({ value, onChange }: Props) => {
   }
 
   useEffect(() => {
-    if (!openFeatures) return;
+    if (!isOpen) return;
 
     const handlePointer = (event: PointerEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
-        setOpendFeatures(false);
+        setIsOpen(false);
       }
     };
     document.addEventListener("pointerdown", handlePointer);
     return () => document.removeEventListener("pointerdown", handlePointer);
-  }, [openFeatures, setOpendFeatures]);
+  }, [isOpen, setIsOpen]);
 
   const handleTypeahead = (char: string) => {
     const state = typeahead.current;
@@ -131,12 +127,12 @@ const CustomSelectField = ({ value, onChange }: Props) => {
       state.query = "";
     }, 500);
 
-    const start = openFeatures ? activeIndex : selectedIndex;
+    const start = isOpen ? activeIndex : selectedIndex;
     const offset = state.query.length === 1 ? 1 : 0;
 
-    for (let i = 0; i < CATEGORIES.length; i++) {
-      const index = (start + offset + i) % CATEGORIES.length;
-      if (CATEGORIES[index].toLowerCase().startsWith(state.query)) {
+    for (let i = 0; i < options.length; i++) {
+      const index = (start + offset + i) % options.length;
+      if (options[index].toLowerCase().startsWith(state.query)) {
         open(index);
         return;
       }
@@ -145,53 +141,51 @@ const CustomSelectField = ({ value, onChange }: Props) => {
   return (
     <div ref={rootRef} className="relative flex flex-col">
       <label
-        htmlFor="category"
-        className="text-sm font-bold tracking-[-0.19px] text-[#3A4374]"
+        htmlFor={label}
+        className="text-sm font-bold tracking-[-0.19px] text-[#3A4374] capitalize"
       >
-        Category
+        {label}
       </label>
-      <span className="mt-0.5 text-sm text-[#647196]">
-        Choose a category for your feedback
-      </span>
+      <span className="mt-0.5 text-sm text-[#647196]">{description}</span>
       <button
         type="button"
         role="combobox"
         aria-controls={listboxId}
         aria-labelledby={labelId}
         aria-haspopup="listbox"
-        aria-activedescendant={openFeatures ? optionId(activeIndex) : undefined}
+        aria-activedescendant={isOpen ? optionId(activeIndex) : undefined}
         tabIndex={0}
-        aria-expanded={openFeatures}
+        aria-expanded={isOpen}
         onKeyDown={handleKeydown}
         onKeyUp={(event) => {
           if (event.key === "  ") event.preventDefault();
         }}
-        onClick={handleClick}
+        onClick={toggleMenu}
         className={`hover:border hover:border-[#4661E6] mt-4 flex h-12 w-full cursor-pointer items-center justify-between rounded-[5px] border bg-[#F7F8FD] px-6 text-[15px] text-[#3A4374] capitalize outline-none focus-visible:border-[#4661E6] ${
-          openFeatures ? "border-[#4661E6]" : "border-transparent"
+          isOpen ? "border-[#4661E6]" : "border-transparent"
         }`}
       >
-        {selectedFeature}
+        {selectedOption}
         <ChevronDown
           aria-hidden="true"
           size={16}
           strokeWidth={2.5}
           className={`text-[#4661E6] transition-transform motion-reduce:transition-none ${
-            openFeatures ? "rotate-180" : ""
+            isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
-      {openFeatures && (
+      {isOpen && (
         <ul
           ref={menuRef}
           role="listbox"
           id={listboxId}
           aria-labelledby={labelId}
-          hidden={!openFeatures}
+          hidden={!isOpen}
           onMouseDown={(event) => event.preventDefault()}
           className="absolute top-full left-0 z-10 mt-4 w-full divide-y divide-[#3A4374]/15 overflow-hidden rounded-[10px] bg-white shadow-[0_10px_40px_-7px_rgba(55,63,104,0.35)]"
         >
-          {CATEGORIES.map((category, index) => {
+          {options.map((category, index) => {
             return (
               <li
                 key={index}
@@ -203,7 +197,7 @@ const CustomSelectField = ({ value, onChange }: Props) => {
                 className={`flex cursor-pointer items-center justify-between px-6 py-3 text-base text-[#647196] capitalize hover:text-[#AD1FEA] ${activeIndex === index && "text-[#AD1FEA]"}`}
               >
                 {category}
-                {category === selectedFeature && (
+                {category === selectedOption && (
                   <Check
                     aria-hidden="true"
                     size={16}

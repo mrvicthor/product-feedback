@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import FeedbackProvider from "./context/feedback-provider.tsx";
 import AddFeedback from "./pages/addFeedback.tsx";
 import Roadmap from "./pages/roadmap.tsx";
+import Details from "./pages/details.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" index element={<App />} />
           <Route path="/add-feedback" element={<AddFeedback />} />
           <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/detail/:id" element={<Details />} />
         </Routes>
       </BrowserRouter>
     </FeedbackProvider>

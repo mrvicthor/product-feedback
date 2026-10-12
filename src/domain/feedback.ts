@@ -15,6 +15,10 @@ export type ActionType =
   | {
       type: "sort";
       sortBy: SortBy;
+    }
+  | {
+      type: "upvote";
+      feedbackId: number;
     };
 
 export function feedbackReducer(
@@ -53,6 +57,16 @@ export function feedbackReducer(
                 : b.comments.length - a.comments.length;
             }
           }),
+        ],
+      };
+    }
+    case "upvote": {
+      return {
+        ...state,
+        feedbacks: [
+          ...state.feedbacks.map((f) =>
+            f.id === action.feedbackId ? { ...f, upvotes: f.upvotes + 1 } : f,
+          ),
         ],
       };
     }

@@ -2,6 +2,8 @@ import { type RowComponentProps } from "react-window";
 import type { ProductRequest } from "../domain/schema";
 import { ChevronUp } from "lucide-react";
 import CommentsIcon from "/assets/shared/icon-comments.svg";
+import { Link } from "react-router";
+import { useFeedbackContext } from "../hooks/useFeedbackContext";
 
 const Feedback = ({
   feedbacks,
@@ -11,7 +13,7 @@ const Feedback = ({
 }: RowComponentProps<{ feedbacks: ProductRequest[] }>) => {
   const feedback = feedbacks[index];
   const isFirst = index === 0;
-
+  const { dispatch } = useFeedbackContext();
   return (
     <div
       style={style}
@@ -19,15 +21,24 @@ const Feedback = ({
       className={`${isFirst ? "" : "pt-5"}`}
     >
       <div className="h-full w-full rounded-[10px] bg-white py-7 px-8 flex gap-10 justify-between group cursor-pointer">
-        <button className="w-10 h-13.25 bg-[#F2F4FE] rounded-xl flex flex-col items-center">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: "upvote", feedbackId: feedback.id });
+          }}
+          className="w-10 h-13.25 bg-[#F2F4FE] rounded-xl flex flex-col items-center cursor-pointer"
+        >
           {" "}
-          <ChevronUp />{" "}
+          <ChevronUp color="#4661E6" />{" "}
           <span className="font-bold text-[13px]">{feedback.upvotes}</span>
         </button>
         <article className="flex-1 min-w-0">
-          <h3 className="font-bold text-lg text-[#3A4374] group-hover:text-[#4661E6]">
+          <Link
+            to={`/detail/${feedback.id}`}
+            className="font-bold text-lg text-[#3A4374] group-hover:text-[#4661E6]"
+          >
             {feedback.title}
-          </h3>
+          </Link>
           <p className="text-[#647196]">{feedback.description}</p>
           <span className="capitalize mt-4 inline-block text-[#4661E6] text-[13px] font-semibold py-1 px-4 bg-[#F2F4FE] rounded-xl">
             {feedback.category}

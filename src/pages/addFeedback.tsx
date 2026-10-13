@@ -6,36 +6,11 @@ import { Controller } from "react-hook-form";
 import { useAddFeedback } from "../hooks/useAddFeedback";
 import { ToastContainer } from "react-toastify";
 import { CATEGORIES } from "../domain/schema";
-import { useFeedbackContext } from "../hooks/useFeedbackContext";
-import { useState } from "react";
 
 const AddFeedback = () => {
-  const {
-    setSelectedFeature,
-    selectedFeature,
-    setOpendFeatures,
-    openFeatures,
-  } = useFeedbackContext();
   const { handleSubmit, onSubmit, control, register, errors } =
     useAddFeedback();
-  const selectedIndex = Math.max(
-    0,
-    CATEGORIES.findIndex(
-      (category) => category.toLowerCase() === selectedFeature.toLowerCase(),
-    ),
-  );
-  const [activeIndex, setActiveIndex] = useState(selectedIndex);
-  const handleClick = () => {
-    setOpendFeatures((prev) => !prev);
-  };
-  const open = (index = selectedIndex) => {
-    setActiveIndex(index);
-    setOpendFeatures(true);
-  };
-  const handleSelect = (index: number) => {
-    setSelectedFeature(CATEGORIES[index]);
-    setOpendFeatures(false);
-  };
+
   return (
     <section className="mx-auto max-w-xl mt-12">
       <Link
@@ -85,22 +60,13 @@ const AddFeedback = () => {
           <Controller
             name="category"
             control={control}
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <CustomSelectField
                 description="Choose a category for your feedback"
                 label="category"
                 {...field}
-                options={Array.from(CATEGORIES)}
-                // onChange={setSelectedFeature}
-                selectedIndex={selectedIndex}
-                activeIndex={activeIndex}
-                toggleMenu={handleClick}
-                open={open}
-                setActiveIndex={setActiveIndex}
-                handleSelect={handleSelect}
-                isOpen={openFeatures}
-                setIsOpen={setOpendFeatures}
-                selectedOption={String(selectedFeature)}
+                options={CATEGORIES}
+                error={fieldState.error?.message}
               />
             )}
           />

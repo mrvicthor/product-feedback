@@ -53,7 +53,7 @@ const Details = () => {
   };
 
   return (
-    <div className="mx-auto h-dvh max-w-[730px] px-6 py-6 md:px-10 md:py-14 flex flex-col gap-6">
+    <div className="mx-auto h-dvh max-w-182.5 px-6 py-6 md:px-10 md:py-14 flex flex-col gap-6">
       {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between">
         <Link
@@ -64,7 +64,7 @@ const Details = () => {
           Go Back
         </Link>
         <Link
-          to="/edit-feedback"
+          to={`/edit-feedback/${Number(id)}`}
           className="rounded-[10px] bg-[#4661E6] px-6 py-3 text-sm font-bold text-[#F2F4FE] transition-colors hover:bg-[#7C91F9]"
         >
           Edit Feedback

@@ -7,6 +7,7 @@ import FeedbackProvider from "./context/feedback-provider.tsx";
 import AddFeedback from "./pages/addFeedback.tsx";
 import Roadmap from "./pages/roadmap.tsx";
 import Details from "./pages/details.tsx";
+import EditFeedback from "./pages/editFeedback.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/add-feedback" element={<AddFeedback />} />
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/detail/:id" element={<Details />} />
+          <Route path="/edit-feedback/:id" element={<EditFeedback />} />
         </Routes>
       </BrowserRouter>
     </FeedbackProvider>

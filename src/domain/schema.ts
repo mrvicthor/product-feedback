@@ -91,3 +91,10 @@ export const addFeedbackSchema = z.object({
 });
 
 export type AddFeedbackDTO = z.infer<typeof addFeedbackSchema>;
+
+export const editFeedbackSchema = addFeedbackSchema.extend({
+  id: z.number(),
+  status: statusSchema,
+});
+
+export type EditFeedbackDTO = z.infer<typeof editFeedbackSchema>;

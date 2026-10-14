@@ -14,6 +14,7 @@ import InputField from "./inputField";
 import arrowLeft from "/assets/shared/icon-arrow-left.svg";
 import editIcon from "/assets/shared/icon-edit-feedback.svg";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
+import TextareaField from "./textareaField";
 
 type Props = {
   feedback: ProductRequest;
@@ -100,30 +101,14 @@ const EditFeedbackForm = ({ feedback }: Props) => {
             )}
           />
 
-          <div>
-            <label
-              htmlFor="description"
-              className="font-bold text-sm capitalize text-[#3A4374]"
-            >
-              feedback detail
-            </label>
-            <p className="text-sm text-[#647196]">
-              Include any specific comments on what should be improved, added
-              etc.
-            </p>
-            <textarea
-              id="description"
-              {...register("description")}
-              aria-invalid={errors.description ? "true" : "false"}
-              rows={4}
-              className={`px-4 py-3 w-full mt-4 bg-[#F7F8FD] hover:border hover:border-[#4661E6] cursor-pointer rounded-lg ${errors.description && "border border-red-500"}`}
-            />
-            {errors.description && (
-              <p role="alert" className="text-red-500 text-xs mt-1">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
+          <TextareaField
+            label="description"
+            heading="feedback detail"
+            description="Include any specific comments on what should be improved, added
+              etc."
+            error={errors.description?.message}
+            {...register("description", { required: true })}
+          />
 
           <div className="flex justify-between gap-4">
             <button
@@ -131,7 +116,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
                 dispatch({ type: "delete_feedback", feedbackId: feedback.id })
               }
               type="button"
-              className="bg-[#D73737] text-white rounded-xl py-[12.5px] px-6 cursor-pointer"
+              className="bg-[#D73737] text-white rounded-xl py-[12.5px] px-6 cursor-pointer font-bold capitalize hover:opacity-40"
             >
               delete
             </button>

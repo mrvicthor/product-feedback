@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 
 const RoadmapHeader = () => {
   return (
-    <header className="h-28.25 bg-[#373F68] flex justify-between items-center rounded-xl px-10">
+    <header className="h-25 md:h-28.25 bg-[#373F68] flex justify-between items-center md:rounded-xl px-6 md:px-10">
       <div>
         <Link
           to="/"

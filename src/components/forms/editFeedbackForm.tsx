@@ -49,7 +49,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
   };
 
   return (
-    <section className="mx-auto max-w-xl mt-12">
+    <section className="mx-auto max-w-xl mt-12 px-6 md:px-0">
       <Link
         to="/"
         className="flex items-center gap-2 font-bold text-[#647196] text-sm"
@@ -110,27 +110,27 @@ const EditFeedbackForm = ({ feedback }: Props) => {
             {...register("description", { required: true })}
           />
 
-          <div className="flex justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:justify-between gap-4">
             <button
               onClick={() =>
                 dispatch({ type: "delete_feedback", feedbackId: feedback.id })
               }
               type="button"
-              className="bg-[#D73737] text-white rounded-xl py-[12.5px] px-6 cursor-pointer font-bold capitalize hover:opacity-40"
+              className="bg-[#D73737] order-last md:order-first text-white rounded-xl py-[12.5px] px-6 cursor-pointer font-bold capitalize hover:opacity-40"
             >
               delete
             </button>
             <Link
               to="/"
-              className="ml-auto cursor-pointer hover:opacity-80 bg-[#3A4374] capitalize rounded-xl text-[#F2F4FE] font-bold py-[12.5px] px-6 flex items-center justify-center"
+              className="md:ml-auto cursor-pointer hover:opacity-80 bg-[#3A4374] capitalize rounded-xl text-[#F2F4FE] font-bold py-[12.5px] px-6 flex items-center justify-center"
             >
               cancel
             </Link>
             <button
               type="submit"
-              className="cursor-pointer hover:opacity-80 bg-[#AD1FEA] text-[#F2F4FE] capitalize font-bold rounded-xl py-[12.5px] px-6 flex items-center justify-center"
+              className="cursor-pointer order-first md:order-last hover:opacity-80 bg-[#AD1FEA] text-[#F2F4FE] capitalize font-bold rounded-xl py-[12.5px] px-6 flex items-center justify-center"
             >
-              add feedback
+              save changes
             </button>
           </div>
         </form>

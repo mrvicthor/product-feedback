@@ -1,0 +1,143 @@
+import { useMemo, useState, type KeyboardEvent } from "react";
+import type { ProductRequest, Status } from "../domain/schema";
+import { getBgColor } from "../helpers/getBgColor";
+import arrowUp from "/assets/shared/icon-arrow-up.svg";
+import commentIcon from "/assets/shared/icon-comments.svg";
+
+type Props<T extends string> = {
+  tabs: readonly T[];
+  feedbacks: ProductRequest[];
+};
+const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const filteredTabs = tabs.filter((tab) => tab !== "suggestion");
+  function handleKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    const { key } = e;
+    console.log({ key });
+    switch (key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        setActiveIndex((prev) =>
+          prev === filteredTabs.length - 1 ? 0 : prev + 1,
+        );
+        return;
+      case "ArrowUp":
+      case "ArrowLeft":
+        setActiveIndex((prev) =>
+          prev === 0 ? filteredTabs.length - 1 : prev - 1,
+        );
+        return;
+      case "Home":
+        e.preventDefault();
+        setActiveIndex(0);
+        return;
+      case "End":
+        e.preventDefault();
+        setActiveIndex(filteredTabs.length - 1);
+        return;
+    }
+  }
+
+  const visibleFeedbacks = useMemo(
+    () => feedbacks.filter((f) => f.status === filteredTabs[activeIndex]),
+    [activeIndex, feedbacks, filteredTabs],
+  );
+
+  return (
+    <div>
+      <div role="tablist" className="flex justify-between items-center">
+        {tabs
+          .filter((option) => option !== "suggestion")
+          .map((option, index) => (
+            <button
+              key={index}
+              id={option}
+              type="button"
+              role="tab"
+              aria-selected={index === activeIndex ? "true" : "false"}
+              aria-controls={option}
+              className={`flex flex-1 justify-center items-center capitalize ${index === activeIndex ? "border-b-4 text-[#3A4374]" : "border-0 text-gray-400"} text-[13px] font-bold focus-visible:text-[#3A4374] py-5`}
+              style={{
+                borderBottomColor: getBgColor(option as Status),
+              }}
+              onKeyDown={handleKeyDown}
+              onClick={() => setActiveIndex(index)}
+            >
+              {option} ({feedbacks.filter((f) => f.status === option).length})
+            </button>
+          ))}
+      </div>
+      <div
+        id={filteredTabs[activeIndex]}
+        role="tabpanel"
+        aria-labelledby={filteredTabs[activeIndex]}
+        className="p-6"
+      >
+        <h2 className="text-lg font-bold text-[#3A4374] capitalize">
+          {filteredTabs[activeIndex]} (
+          {
+            feedbacks.filter((f) => f.status === filteredTabs[activeIndex])
+              .length
+          }
+          )
+        </h2>
+        <p className="text-[13px] text-[#647196]">
+          {filteredTabs[activeIndex] === "in-progress"
+            ? "Features currently being developed"
+            : filteredTabs[activeIndex] === "planned"
+              ? "Ideas prioritized for research"
+              : "Released features"}
+        </p>
+        <ul className="mt-6 flex flex-col gap-4">
+          {visibleFeedbacks.map((f) => (
+            <li
+              key={f.id}
+              style={{
+                borderTopColor: getBgColor(filteredTabs[activeIndex] as Status),
+              }}
+              className="border-t-4 rounded-lg px-6 pt-5.5 bg-white pb-6"
+            >
+              <div className="flex gap-2 items-center">
+                <div
+                  style={{
+                    backgroundColor: getBgColor(
+                      filteredTabs[activeIndex] as Status,
+                    ),
+                  }}
+                  className="h-2 w-2 rounded-full"
+                />
+                <span className="text-[13px] text-[#647196] capitalize">
+                  {f.status}
+                </span>
+              </div>
+              <h3 className="mt-4 font-bold text-[#3A4374]">{f.title}</h3>
+              <p className="text-[#647196] text-[13px] mt-2.25">
+                {f.description}
+              </p>
+              <span className="bg-[#F2F4FF] text-[#4661E6] py-1.5 px-4 rounded-lg mt-2 inline-block capitalize text-[13px] font-semibold">
+                {f.category}
+              </span>
+              <div className="mt-4 flex items-center justify-between">
+                <button className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-6 py-2.75 rounded-lg">
+                  <img src={arrowUp} className="h-1 w-2" />{" "}
+                  <span className="font-bold text-[13px] text-[#3A4374]">
+                    {f.upvotes}
+                  </span>
+                </button>
+                <div className="flex items-center gap-2">
+                  <img src={commentIcon} />{" "}
+                  <span className="font-bold text-[#3A4374] text-[13px]">
+                    {f.comments?.length}
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Tabs;

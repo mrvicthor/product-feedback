@@ -1,6 +1,8 @@
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import RoadmapHeader from "../components/roadmapHeader";
 import Card from "../components/card";
+import Tabs from "../components/tabs";
+import { STATUSES } from "../domain/schema";
 
 const Roadmap = () => {
   const {
@@ -14,10 +16,11 @@ const Roadmap = () => {
   const plannedFeedback = feedbacks.filter((f) => f.status === "planned");
   const inProgessFeedback = feedbacks.filter((f) => f.status === "in-progress");
   const liveFeedback = feedbacks.filter((f) => f.status === "live");
+
   return (
-    <section className="mt-6 max-w-6xl mx-auto">
+    <section className="mt-6 max-w-6xl mx-auto md:px-10">
       <RoadmapHeader />
-      <div className="grid grid-cols-3 gap-7.5 mt-12 pb-6">
+      <div className="hidden md:grid md:grid-cols-3 gap-2.5 lg:gap-7.5 mt-12 pb-6">
         <div className="space-y-1">
           <h2 className="text-lg text-[#3A4374] font-bold">
             Planned ({plannedTotal})
@@ -52,6 +55,7 @@ const Roadmap = () => {
           </div>
         </div>
       </div>
+      <Tabs tabs={STATUSES} feedbacks={feedbacks} />
     </section>
   );
 };

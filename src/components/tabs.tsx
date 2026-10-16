@@ -3,6 +3,8 @@ import type { ProductRequest, Status } from "../domain/schema";
 import { getBgColor } from "../helpers/getBgColor";
 import arrowUp from "/assets/shared/icon-arrow-up.svg";
 import commentIcon from "/assets/shared/icon-comments.svg";
+import { Link } from "react-router";
+import { useFeedbackContext } from "../hooks/useFeedbackContext";
 
 type Props<T extends string> = {
   tabs: readonly T[];
@@ -10,11 +12,12 @@ type Props<T extends string> = {
 };
 const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { dispatch } = useFeedbackContext();
   const filteredTabs = tabs.filter((tab) => tab !== "suggestion");
   function handleKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { key } = e;
-    console.log({ key });
+
     switch (key) {
       case "ArrowRight":
       case "ArrowDown":
@@ -111,7 +114,12 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
                   {f.status}
                 </span>
               </div>
-              <h3 className="mt-4 font-bold text-[#3A4374]">{f.title}</h3>
+              <Link
+                to={`/detail/${f.id}`}
+                className="mt-4 font-bold text-[#3A4374]"
+              >
+                {f.title}
+              </Link>
               <p className="text-[#647196] text-[13px] mt-2.25">
                 {f.description}
               </p>
@@ -119,7 +127,10 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
                 {f.category}
               </span>
               <div className="mt-4 flex items-center justify-between">
-                <button className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-6 py-2.75 rounded-lg">
+                <button
+                  onClick={() => dispatch({ type: "upvote", feedbackId: f.id })}
+                  className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-6 py-2.75 rounded-lg"
+                >
                   <img src={arrowUp} className="h-1 w-2" />{" "}
                   <span className="font-bold text-[13px] text-[#3A4374]">
                     {f.upvotes}

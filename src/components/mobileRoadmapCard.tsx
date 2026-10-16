@@ -4,12 +4,14 @@ type MobileRoadmapCardProps = {
   plannedTotal: number;
   inProgressTotal: number;
   liveTotal: number;
+  hideMenu: () => void;
 };
 
 const MobileRoadmapCard = ({
   plannedTotal,
   inProgressTotal,
   liveTotal,
+  hideMenu,
 }: MobileRoadmapCardProps) => {
   return (
     <div className="bg-white p-6 rounded-[10px]">
@@ -19,6 +21,7 @@ const MobileRoadmapCard = ({
         </h2>
         <Link
           to="/roadmap"
+          onClick={hideMenu}
           className="text-[#4661E6] underline hover:text-[#8397F8] text-[13px] font-semibold"
         >
           View

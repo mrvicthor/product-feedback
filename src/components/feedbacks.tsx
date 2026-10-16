@@ -4,6 +4,7 @@ import type { ProductRequest } from "../domain/schema";
 import arrowUp from "/assets/shared/icon-arrow-up.svg";
 import commentIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
+import { useFeedbackContext } from "../hooks/useFeedbackContext";
 
 type Props = {
   feedbacks: ProductRequest[];
@@ -11,6 +12,7 @@ type Props = {
 const Feedbacks = ({ feedbacks }: Props) => {
   const ROW_HEIGHT = 145;
   const ROW_GAP = 20;
+  const { dispatch } = useFeedbackContext();
 
   return (
     <>
@@ -40,7 +42,10 @@ const Feedbacks = ({ feedbacks }: Props) => {
               {f.category}
             </span>
             <div className="mt-4 flex items-center justify-between">
-              <button className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg">
+              <button
+                onClick={() => dispatch({ type: "upvote", feedbackId: f.id })}
+                className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg"
+              >
                 <img src={arrowUp} className="h-1 w-2" />{" "}
                 <span className="font-bold text-[13px] text-[#3A4374]">
                   {f.upvotes}

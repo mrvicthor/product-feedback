@@ -62,6 +62,7 @@ const MobileMenu = () => {
           plannedTotal={plannedTotal}
           inProgressTotal={inProgressTotal}
           liveTotal={liveTotal}
+          hideMenu={() => setOpenMobileMenu(false)}
         />
       </div>
     </>

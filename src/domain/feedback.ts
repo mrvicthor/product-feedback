@@ -1,4 +1,4 @@
-import type { Category, ProductRequest, SortBy, Status } from "./schema";
+import type { Category, ProductRequest, SortBy, Status, User } from "./schema";
 
 export type FeedbackData = {
   feedbacks: ProductRequest[];
@@ -31,6 +31,13 @@ export type ActionType =
   | {
       type: "delete_feedback";
       feedbackId: number;
+    }
+  | {
+      type: "add_comment";
+      feedbackId: number;
+      content: string;
+      contentId: number;
+      user: User;
     };
 
 export function feedbackReducer(
@@ -105,6 +112,28 @@ export function feedbackReducer(
         ...state,
         feedbacks: [
           ...state.feedbacks.filter((f) => f.id !== action.feedbackId),
+        ],
+      };
+    }
+    case "add_comment": {
+      return {
+        ...state,
+        feedbacks: [
+          ...state.feedbacks.map((f) =>
+            f.id === action.feedbackId
+              ? {
+                  ...f,
+                  comments: [
+                    ...f.comments!,
+                    {
+                      id: action.contentId,
+                      content: action.content,
+                      user: action.user,
+                    },
+                  ],
+                }
+              : f,
+          ),
         ],
       };
     }

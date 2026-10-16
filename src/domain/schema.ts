@@ -98,3 +98,14 @@ export const editFeedbackSchema = addFeedbackSchema.extend({
 });
 
 export type EditFeedbackDTO = z.infer<typeof editFeedbackSchema>;
+
+export const addCommentSchema = z.object({
+  content: z
+    .string()
+    .trim()
+    .min(4, EMPTY)
+    .max(250, "Comment must be 50 characters or less"),
+  user: userSchema,
+});
+
+export type AddCommentDTO = z.infer<typeof addCommentSchema>;

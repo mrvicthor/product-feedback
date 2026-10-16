@@ -48,7 +48,7 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
   );
 
   return (
-    <div>
+    <div className="md:hidden">
       <div role="tablist" className="flex justify-between items-center">
         {tabs
           .filter((option) => option !== "suggestion")

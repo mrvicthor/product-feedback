@@ -1,12 +1,9 @@
 import { useForm } from "react-hook-form";
-import {
-  addFeedbackSchema,
-  type AddFeedbackDTO,
-  type ProductRequest,
-} from "../domain/schema";
+import { addFeedbackSchema, type AddFeedbackDTO } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFeedbackContext } from "./useFeedbackContext";
 import { toast } from "react-toastify";
+import { generateId } from "../helpers/generateId";
 
 export function useAddFeedback() {
   const {
@@ -27,8 +24,7 @@ export function useAddFeedback() {
     dispatch,
     state: { feedbacks },
   } = useFeedbackContext();
-  const generateId = (feedbacks: ProductRequest[]) =>
-    feedbacks.reduce((max, f) => Math.max(max, f.id), 0) + 1;
+
   const onSubmit = (data: AddFeedbackDTO) => {
     const { title, category, description } = data;
     dispatch({

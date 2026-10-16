@@ -2,27 +2,23 @@ import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { ChevronLeft, ChevronUp } from "lucide-react";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
-import type { ProductRequest } from "../domain/schema";
+import { type ProductRequest } from "../domain/schema";
 import CommentsIcon from "/assets/shared/icon-comments.svg";
 import { CommentItem } from "../components/commentItem";
 import NotFound from "../components/notFound";
+import AddCommentForm from "../components/forms/addCommentForm";
 
 type Comment = NonNullable<ProductRequest["comments"]>[number];
 type Reply = NonNullable<Comment["replies"]>[number];
 
-const MAX_CHARS = 250;
-
-// Shared textarea styles — the active state is the blue border
-const textareaClasses =
-  "w-full resize-none rounded-[5px] border border-transparent bg-[#F7F8FD] px-6 py-4 text-[15px] text-[#3A4374] placeholder:text-[#8C92B3] outline-none focus:border-[#4661E6] cursor-pointer focus:cursor-text";
-
 const Details = () => {
   const { id } = useParams();
-  const [newComment, setNewComment] = useState("");
+
   // Which comment/reply currently has its reply box open (only one at a time)
   const [activeReplyKey, setActiveReplyKey] = useState<string | null>(null);
   const {
     state: { feedbacks },
+    dispatch,
   } = useFeedbackContext();
 
   const detail = feedbacks.find((f) => f.id === Number(id));
@@ -36,7 +32,6 @@ const Details = () => {
     (total, c) => total + 1 + (c.replies?.length ?? 0),
     0,
   );
-  const charsLeft = MAX_CHARS - newComment.length;
 
   const toggleReply = (key: string) =>
     setActiveReplyKey((current) => (current === key ? null : key));
@@ -73,7 +68,10 @@ const Details = () => {
 
       {/* Feedback card */}
       <div className="shrink-0 rounded-[10px] bg-white p-6 md:p-8 flex items-start gap-10">
-        <button className="flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] bg-[#F2F4FE] transition-colors hover:bg-[#CFD7FF]">
+        <button
+          onClick={() => dispatch({ type: "upvote", feedbackId: Number(id) })}
+          className="flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] bg-[#F2F4FE] transition-colors hover:bg-[#CFD7FF]"
+        >
           <ChevronUp size={14} color="#4661E6" strokeWidth={3} />
           <span className="text-[13px] font-bold text-[#3A4374]">
             {upvotes}
@@ -155,44 +153,7 @@ const Details = () => {
           </ul>
         )}
       </section>
-
-      {/* Add comment — stays pinned at the bottom */}
-      <form
-        className="shrink-0 rounded-[10px] bg-white px-6 py-6 md:px-8"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!newComment.trim()) return;
-          // TODO: dispatch add-comment action
-          setNewComment("");
-        }}
-      >
-        <label
-          htmlFor="new-comment"
-          className="text-lg font-bold text-[#3A4374]"
-        >
-          Add Comment
-        </label>
-        <textarea
-          id="new-comment"
-          rows={2}
-          maxLength={MAX_CHARS}
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Type your comment here"
-          className={`mt-6 ${textareaClasses}`}
-        />
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-[15px] text-[#647196]">
-            {charsLeft} characters left
-          </span>
-          <button
-            type="submit"
-            className="cursor-pointer rounded-[10px] bg-[#AD1FEA] px-6 py-3 text-sm font-bold text-[#F2F4FE] transition-colors hover:bg-[#C75AF6]"
-          >
-            Post Comment
-          </button>
-        </div>
-      </form>
+      <AddCommentForm id={detail.id} feedbacks={feedbacks} />
     </div>
   );
 };

@@ -7,14 +7,15 @@ import CommentsIcon from "/assets/shared/icon-comments.svg";
 import { CommentItem } from "../components/commentItem";
 import NotFound from "../components/notFound";
 import AddCommentForm from "../components/forms/addCommentForm";
+import data from "../data.json";
 
 type Comment = NonNullable<ProductRequest["comments"]>[number];
 type Reply = NonNullable<Comment["replies"]>[number];
 
 const Details = () => {
   const { id } = useParams();
+  const user = data.currentUser;
 
-  // Which comment/reply currently has its reply box open (only one at a time)
   const [activeReplyKey, setActiveReplyKey] = useState<string | null>(null);
   const {
     state: { feedbacks },
@@ -41,8 +42,14 @@ const Details = () => {
     replyingTo: string,
     content: string,
   ) => {
-    // TODO: dispatch add-reply action, e.g.
-    // dispatch({ type: "ADD_REPLY", payload: { feedbackId: detail.id, commentId, replyingTo, content } })
+    dispatch({
+      type: "reply_comment",
+      feedbackId: detail.id,
+      content,
+      commentId,
+      replyingTo,
+      user,
+    });
     console.info({ commentId, replyingTo, content });
     setActiveReplyKey(null);
   };
@@ -115,6 +122,8 @@ const Details = () => {
                     username={c.user.username}
                     image={c.user.image}
                     content={c.content}
+                    replyingTo={c.user.username}
+                    user={user}
                     isReplying={activeReplyKey === commentKey}
                     onReplyClick={() => toggleReply(commentKey)}
                     onCancelReply={() => setActiveReplyKey(null)}
@@ -134,6 +143,7 @@ const Details = () => {
                               username={r.user.username}
                               image={r.user.image}
                               content={r.content}
+                              user={user}
                               replyingTo={r.replyingTo}
                               isReplying={activeReplyKey === replyKey}
                               onReplyClick={() => toggleReply(replyKey)}

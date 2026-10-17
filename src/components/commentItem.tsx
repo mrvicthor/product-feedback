@@ -5,11 +5,16 @@ type CommentItemProps = {
   username: string;
   image: string;
   content: string;
-  replyingTo?: string;
+  replyingTo: string;
   isReplying: boolean;
   onReplyClick: () => void;
   onCancelReply: () => void;
   onPostReply: (content: string) => void;
+  user: {
+    image: string;
+    name: string;
+    username: string;
+  };
 };
 
 // data.json paths start with "./assets/..." — make them root-relative
@@ -25,6 +30,7 @@ export const CommentItem = ({
   onReplyClick,
   onCancelReply,
   onPostReply,
+  user,
 }: CommentItemProps) => (
   <div className="flex gap-8">
     <img
@@ -47,7 +53,7 @@ export const CommentItem = ({
           Reply
         </button>
       </div>
-      <p className="mt-4 text-[15px] leading-[22px] text-[#647196]">
+      <p className="mt-4 text-[15px] leading-5.5 text-[#647196]">
         {replyingTo && (
           <span className="mr-1 font-bold text-[#AD1FEA]">@{replyingTo}</span>
         )}
@@ -59,6 +65,8 @@ export const CommentItem = ({
           username={username}
           onCancel={onCancelReply}
           onSubmit={onPostReply}
+          user={user}
+          replyingTo={replyingTo}
         />
       )}
     </div>

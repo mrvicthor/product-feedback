@@ -22,7 +22,7 @@ export const SORT_OPTIONS = [
 ] as const;
 
 export type SortBy = (typeof SORT_OPTIONS)[number]["value"];
-
+const EMPTY = "Can't be empty";
 export const categorySchema = z.enum(CATEGORIES);
 export const statusSchema = z.enum(STATUSES);
 
@@ -36,7 +36,11 @@ export const userSchema = z.object({
 });
 
 export const replySchema = z.object({
-  content: z.string(),
+  content: z
+    .string()
+    .trim()
+    .min(4, EMPTY)
+    .max(250, "Comment must be 50 characters or less"),
   replyingTo: z.string(),
   user: userSchema,
 });
@@ -69,8 +73,6 @@ export type Reply = z.infer<typeof replySchema>;
 export type Comment = z.infer<typeof commentSchema>;
 export type ProductRequest = z.infer<typeof productRequestSchema>;
 export type FeedbackData = z.infer<typeof feedbackDataSchema>;
-
-const EMPTY = "Can't be empty";
 
 export const addFeedbackSchema = z.object({
   title: z

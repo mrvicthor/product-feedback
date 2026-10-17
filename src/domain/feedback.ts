@@ -1,3 +1,4 @@
+import { updateById } from "../helpers/updateById";
 import type { Category, ProductRequest, SortBy, Status, User } from "./schema";
 
 export type FeedbackData = {
@@ -37,6 +38,14 @@ export type ActionType =
       feedbackId: number;
       content: string;
       contentId: number;
+      user: User;
+    }
+  | {
+      type: "reply_comment";
+      feedbackId: number;
+      commentId: number;
+      content: string;
+      replyingTo: string;
       user: User;
     };
 
@@ -92,19 +101,13 @@ export function feedbackReducer(
     case "update_feedback": {
       return {
         ...state,
-        feedbacks: [
-          ...state.feedbacks.map((f) =>
-            f.id === action.feedbackId
-              ? {
-                  ...f,
-                  title: action.title,
-                  description: action.description,
-                  status: action.status,
-                  category: action.category,
-                }
-              : f,
-          ),
-        ],
+        feedbacks: updateById(state.feedbacks, action.feedbackId, (f) => ({
+          ...f,
+          title: action.title,
+          description: action.description,
+          status: action.status,
+          category: action.category,
+        })),
       };
     }
     case "delete_feedback": {
@@ -135,6 +138,25 @@ export function feedbackReducer(
               : f,
           ),
         ],
+      };
+    }
+    case "reply_comment": {
+      return {
+        ...state,
+        feedbacks: updateById(state.feedbacks, action.feedbackId, (f) => ({
+          ...f,
+          comments: updateById(f.comments ?? [], action.commentId, (c) => ({
+            ...c,
+            replies: [
+              ...(c.replies ?? []),
+              {
+                content: action.content,
+                replyingTo: action.replyingTo,
+                user: action.user,
+              },
+            ],
+          })),
+        })),
       };
     }
     default: {

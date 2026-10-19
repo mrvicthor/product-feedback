@@ -8,10 +8,13 @@ import { ToastContainer } from "react-toastify";
 import { CATEGORIES } from "../domain/schema";
 import InputField from "../components/forms/inputField";
 import TextareaField from "../components/forms/textareaField";
+import { useRef } from "react";
 
 const AddFeedback = () => {
   const { handleSubmit, onSubmit, control, register, errors } =
     useAddFeedback();
+  const { ref: titleRef, ...titleField } = register("title");
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <section className="mx-auto max-w-xl mt-12 px-6 md:px-0">
@@ -30,12 +33,14 @@ const AddFeedback = () => {
         </h1>
         <form className="mt-10 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <InputField
-            label="title"
+            {...titleField}
+            ref={(el) => {
+              titleRef(el);
+              inputRef.current = el;
+            }}
             heading="feedback title"
             description="Add a short, descriptive headline"
-            placeholder=""
             error={errors.title?.message}
-            {...register("title", { required: "Title is required" })}
           />
           <Controller
             name="category"

@@ -15,12 +15,14 @@ import arrowLeft from "/assets/shared/icon-arrow-left.svg";
 import editIcon from "/assets/shared/icon-edit-feedback.svg";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import TextareaField from "./textareaField";
+import { useRef } from "react";
 
 type Props = {
   feedback: ProductRequest;
 };
 const EditFeedbackForm = ({ feedback }: Props) => {
   const { dispatch } = useFeedbackContext();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -36,6 +38,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
       status: feedback.status,
     },
   });
+  const { ref: titleRef, ...titleField } = register("title");
   const onSubmit = (data: EditFeedbackDTO) => {
     dispatch({
       type: "update_feedback",
@@ -65,12 +68,15 @@ const EditFeedbackForm = ({ feedback }: Props) => {
         </h1>
         <form className="mt-10 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <InputField
-            label="title"
             heading="feedback title"
             description="Add a short, descriptive headline"
-            placeholder="Add a dark theme option"
             error={errors.title?.message}
-            {...register("title", { required: "Title is required" })}
+            {...register("title")}
+            {...titleField}
+            ref={(el) => {
+              titleRef(el);
+              inputRef.current = el;
+            }}
           />
 
           <Controller

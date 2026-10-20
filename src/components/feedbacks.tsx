@@ -13,7 +13,6 @@ const Feedbacks = ({ feedbacks }: Props) => {
   const ROW_HEIGHT = 145;
   const ROW_GAP = 20;
   const { dispatch } = useFeedbackContext();
-  console.log({ feedbacks });
 
   return (
     <>

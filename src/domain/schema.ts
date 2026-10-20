@@ -39,7 +39,8 @@ export const replySchema = z.object({
   content: z
     .string()
     .trim()
-    .min(4, EMPTY)
+    .min(1, EMPTY)
+    .min(10, "Please add a bit more detail (10+ characters)")
     .max(250, "Comment must be 50 characters or less"),
   replyingTo: z.string(),
   user: userSchema,
@@ -78,8 +79,9 @@ export const addFeedbackSchema = z.object({
   title: z
     .string()
     .trim()
-    .min(4, EMPTY)
-    .max(100, "Feedback title must be 50 characters or less")
+    .min(1, EMPTY)
+    .min(5, "Title must be at least 5 characters")
+    .max(60, "Title must be 60 characters or less")
     .regex(
       /^\p{L}+(?: \p{L}+)*$/u,
       "Feedback title can only contain letters and spaces",
@@ -88,7 +90,8 @@ export const addFeedbackSchema = z.object({
   description: z
     .string()
     .trim()
-    .min(5, EMPTY)
+    .min(1, EMPTY)
+    .min(10, "Please add a bit more detail (10+ characters)")
     .max(500, "Feedback detail must be 500 characters or fewer"),
 });
 
@@ -105,7 +108,8 @@ export const addCommentSchema = z.object({
   content: z
     .string()
     .trim()
-    .min(4, EMPTY)
+    .min(1, EMPTY)
+    .min(10, "Please add a bit more detail (10+ characters)")
     .max(250, "Comment must be 50 characters or less"),
   user: userSchema,
 });

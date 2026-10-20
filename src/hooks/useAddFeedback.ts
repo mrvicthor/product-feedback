@@ -2,18 +2,21 @@ import { useForm } from "react-hook-form";
 import { addFeedbackSchema, type AddFeedbackDTO } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFeedbackContext } from "./useFeedbackContext";
-import { toast } from "react-toastify";
 import { generateId } from "../helpers/generateId";
+import { useNavigate } from "react-router";
 
 export function useAddFeedback() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<AddFeedbackDTO>({
     resolver: zodResolver(addFeedbackSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       title: "",
       category: "feature",
@@ -35,13 +38,15 @@ export function useAddFeedback() {
       description,
     });
     reset();
-    toast.success("New feedback added successfully");
+    navigate("/");
   };
+
   return {
     register,
     handleSubmit,
     control,
     errors,
     onSubmit,
+    isSubmitting,
   };
 }

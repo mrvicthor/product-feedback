@@ -23,6 +23,7 @@ type Props = {
 const EditFeedbackForm = ({ feedback }: Props) => {
   const { dispatch } = useFeedbackContext();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -39,6 +40,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
     },
   });
   const { ref: titleRef, ...titleField } = register("title");
+  const { ref: descriptionRef, ...descriptionField } = register("description");
   const onSubmit = (data: EditFeedbackDTO) => {
     dispatch({
       type: "update_feedback",
@@ -108,12 +110,16 @@ const EditFeedbackForm = ({ feedback }: Props) => {
           />
 
           <TextareaField
-            label="description"
             heading="feedback detail"
             description="Include any specific comments on what should be improved, added
               etc."
             error={errors.description?.message}
-            {...register("description", { required: true })}
+            {...register("description")}
+            {...descriptionField}
+            ref={(el) => {
+              descriptionRef(el);
+              textRef.current = el;
+            }}
           />
 
           <div className="flex flex-col md:flex-row md:justify-between gap-4">

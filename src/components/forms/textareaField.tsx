@@ -1,25 +1,26 @@
-import type { Ref } from "react";
+import { useId, type ComponentProps } from "react";
 
-type CustomProps = {
-  label: string;
+type CustomProps = ComponentProps<"textarea"> & {
   heading: string;
   description: string;
   error?: string;
-  ref: Ref<HTMLTextAreaElement>;
 };
 
 const TextareaField = ({
-  label,
   heading,
   description,
   error,
   ref,
+  className,
   ...props
 }: CustomProps) => {
+  const id = useId();
+  const descriptionId = `${id}-description`;
+  const errorId = `${id}-error`;
   return (
     <div>
       <label
-        htmlFor={label}
+        htmlFor={id}
         className="font-bold text-sm capitalize text-[#3A4374]"
       >
         {heading}
@@ -27,19 +28,17 @@ const TextareaField = ({
       <p className="text-sm text-[#647196]">{description}</p>
       <textarea
         ref={ref}
-        id={label}
+        id={id}
         {...props}
         aria-invalid={error ? "true" : "false"}
-        aria-describedby={error ? "description-error" : undefined}
+        aria-describedby={error ? `${descriptionId} ${errorId}` : descriptionId}
         rows={4}
-        className={`px-4 py-3 w-full mt-4 bg-[#F7F8FD] hover:border hover:border-[#4661E6] cursor-pointer rounded-lg ${error && "border border-red-500"}`}
+        className={`px-4 py-3 w-full mt-4 bg-[#F7F8FD] hover:border cursor-pointer hover:border-[#4661E6] focus:border-[#4661E6] focus:outline-none ${
+          error ? "border-red-500" : "border-transparent"
+        } ${className ?? ""}`}
       />
       {error && (
-        <p
-          role="alert"
-          id="description-error"
-          className="text-red-500 text-xs mt-1"
-        >
+        <p id={errorId} role="alert" className="mt-1 text-xs text-red-500">
           {error}
         </p>
       )}

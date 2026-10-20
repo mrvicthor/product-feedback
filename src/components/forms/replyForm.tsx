@@ -49,7 +49,7 @@ export const ReplyForm = ({
   return (
     <form
       className="mt-6 flex items-start gap-4"
-      onSubmit={handleSubmit(submitReply, (errors) => console.log(errors))}
+      onSubmit={handleSubmit(submitReply)}
     >
       <div className="flex flex-1 flex-col">
         <textarea

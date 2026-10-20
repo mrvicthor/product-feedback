@@ -37,7 +37,7 @@ const InputField = ({
         } ${className ?? ""}`}
       />
       {error && (
-        <p role="alert" className="text-xs text-red-500 mt-1">
+        <p id={errorId} role="alert" className="mt-1 text-xs text-red-500">
           {error}
         </p>
       )}

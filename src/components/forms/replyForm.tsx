@@ -25,7 +25,6 @@ export const ReplyForm = ({
   user,
   replyingTo,
 }: ReplyFormProps) => {
-  console.log({ replyingTo });
   const {
     handleSubmit,
     register,
@@ -41,7 +40,6 @@ export const ReplyForm = ({
   });
 
   const submitReply = (data: Reply) => {
-    console.log({ data });
     onSubmit(data.content);
     reset();
   };

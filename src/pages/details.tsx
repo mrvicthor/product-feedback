@@ -50,7 +50,7 @@ const Details = () => {
       replyingTo,
       user,
     });
-    console.info({ commentId, replyingTo, content });
+
     setActiveReplyKey(null);
   };
 

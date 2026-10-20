@@ -1,18 +1,19 @@
 import { List } from "react-window";
 import Feedback from "./feedback";
-import type { ProductRequest } from "../domain/schema";
 import arrowUp from "/assets/shared/icon-arrow-up.svg";
 import commentIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
+import type { FeedbackCardModel } from "../useCases/viewProductFeedback/__tests__/productFeedbackPageModel";
 
 type Props = {
-  feedbacks: ProductRequest[];
+  feedbacks: FeedbackCardModel[];
 };
 const Feedbacks = ({ feedbacks }: Props) => {
   const ROW_HEIGHT = 145;
   const ROW_GAP = 20;
   const { dispatch } = useFeedbackContext();
+  console.log({ feedbacks });
 
   return (
     <>
@@ -54,7 +55,7 @@ const Feedbacks = ({ feedbacks }: Props) => {
               <div className="flex items-center gap-2">
                 <img src={commentIcon} />{" "}
                 <span className="font-bold text-[#3A4374] text-[13px]">
-                  {f.comments?.length}
+                  {f.commentCount}
                 </span>
               </div>
             </div>

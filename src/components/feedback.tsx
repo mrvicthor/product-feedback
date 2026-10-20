@@ -1,16 +1,16 @@
 import { type RowComponentProps } from "react-window";
-import type { ProductRequest } from "../domain/schema";
 import { ChevronUp } from "lucide-react";
 import CommentsIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
+import type { FeedbackCardModel } from "../useCases/viewProductFeedback/__tests__/productFeedbackPageModel";
 
 const Feedback = ({
   feedbacks,
   index,
   ariaAttributes,
   style,
-}: RowComponentProps<{ feedbacks: ProductRequest[] }>) => {
+}: RowComponentProps<{ feedbacks: FeedbackCardModel[] }>) => {
   const feedback = feedbacks[index];
   const isFirst = index === 0;
   const { dispatch } = useFeedbackContext();
@@ -48,9 +48,9 @@ const Feedback = ({
           <div className="flex items-center gap-4">
             <img src={CommentsIcon} className="h-4 w-4.5" />{" "}
             <span
-              className={`${feedback.comments && feedback.comments.length > 0 ? "text-[#3A4374]" : "text-[#647196]"} font-bold`}
+              className={`${feedback.commentCount > 0 ? "text-[#3A4374]" : "text-[#647196]"} font-bold`}
             >
-              {feedback.comments?.length ?? 0}
+              {feedback.commentCount}
             </span>
           </div>
         </div>

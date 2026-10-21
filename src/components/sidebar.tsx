@@ -5,6 +5,8 @@ import menuIcon from "/assets/shared/mobile/icon-hamburger.svg";
 import closeIcon from "/assets/shared/mobile/icon-close.svg";
 import MobileMenu from "./mobileMenu";
 import { createSidebarModel } from "../useCases/viewProductFeedback/sidebarModel";
+import { useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
 const Sidebar = () => {
   const {
     setSelectedFeature,
@@ -14,7 +16,10 @@ const Sidebar = () => {
     setOpenMobileMenu,
     openMobileMenu,
   } = useFeedbackContext();
-  const viewModel = createSidebarModel(feedbacks, filterBy);
+  const viewModel = useMemo(
+    () => createSidebarModel(feedbacks, filterBy),
+    [feedbacks, filterBy],
+  );
   const { roadmap, categories } = viewModel;
   return (
     <>
@@ -51,7 +56,11 @@ const Sidebar = () => {
         </div>
         <RoadmapCard roadmap={roadmap} />
       </section>
-      {openMobileMenu && <MobileMenu />}
+      {openMobileMenu && (
+        <AnimatePresence>
+          <MobileMenu />
+        </AnimatePresence>
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import type { Category, ProductRequest, Status } from "../../../domain/schema";
+import type { Category, ProductRequest, Status } from "../../domain/schema";
 
 export type FeedbackCardModel = {
   id: number;

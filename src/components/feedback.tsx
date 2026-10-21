@@ -3,7 +3,7 @@ import { ChevronUp } from "lucide-react";
 import CommentsIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
-import type { FeedbackCardModel } from "../useCases/viewProductFeedback/__tests__/productFeedbackPageModel";
+import type { FeedbackCardModel } from "../useCases/viewProductFeedback/productFeedbackPageModel";
 
 const Feedback = ({
   feedbacks,

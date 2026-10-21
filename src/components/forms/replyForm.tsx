@@ -46,7 +46,7 @@ export const ReplyForm = ({
 
   return (
     <form
-      className="mt-6 flex items-start gap-4"
+      className="mt-6 flex flex-col md:flex-row items-start gap-4"
       onSubmit={handleSubmit(submitReply)}
     >
       <div className="flex flex-1 flex-col">

@@ -1,9 +1,10 @@
-import { CATEGORIES, type Category } from "../domain/schema";
+import { type Category } from "../domain/schema";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import RoadmapCard from "./roadmapCard";
 import menuIcon from "/assets/shared/mobile/icon-hamburger.svg";
 import closeIcon from "/assets/shared/mobile/icon-close.svg";
 import MobileMenu from "./mobileMenu";
+import { createSidebarModel } from "../useCases/viewProductFeedback/sidebarModel";
 const Sidebar = () => {
   const {
     setSelectedFeature,
@@ -13,11 +14,8 @@ const Sidebar = () => {
     setOpenMobileMenu,
     openMobileMenu,
   } = useFeedbackContext();
-  const plannedTotal = feedbacks.filter((f) => f.status === "planned").length;
-  const inProgressTotal = feedbacks.filter(
-    (f) => f.status === "in-progress",
-  ).length;
-  const liveTotal = feedbacks.filter((f) => f.status === "live").length;
+  const viewModel = createSidebarModel(feedbacks, filterBy);
+  const { roadmap, categories } = viewModel;
   return (
     <>
       <section className="lg:col-span-1 flex lg:flex-col gap-2.5 lg:gap-6 shrink-0">
@@ -37,35 +35,21 @@ const Sidebar = () => {
           </button>
         </div>
         <div className="bg-white hidden md:flex-1 lg:flex-none rounded-[10px] p-6 md:flex gap-x-2 gap-y-3.5 flex-wrap">
-          <button
-            type="button"
-            onClick={() => {
-              setFilterBy(null);
-              setSelectedFeature("all" as Category);
-            }}
-            className={`${filterBy === null ? "bg-[#4661E6] text-white" : "text-[#4661E6] bg-[#f2f4ff] hover:bg-[#CFD7FF]"} px-4 py-1 rounded-xl text-[13px] font-semibold cursor-pointer capitalize`}
-          >
-            all
-          </button>
-          {CATEGORIES.map((category, index) => (
+          {categories.map((category, index) => (
             <button
               type="button"
               key={index}
               onClick={() => {
-                setFilterBy(category);
-                setSelectedFeature(category);
+                setFilterBy(category.value);
+                setSelectedFeature(category.value as Category);
               }}
-              className={`${filterBy?.toLowerCase() === category.toLowerCase() ? "bg-[#4661E6] text-white" : "text-[#4661E6] bg-[#f2f4ff] hover:bg-[#CFD7FF]"} px-4 py-1 rounded-xl text-[13px] font-semibold cursor-pointer capitalize `}
+              className={`${category.isActive ? "bg-[#4661E6] text-white" : "text-[#4661E6] bg-[#f2f4ff] hover:bg-[#CFD7FF]"} px-4 py-1 rounded-xl text-[13px] font-semibold cursor-pointer capitalize `}
             >
-              {category}
+              {category.label}
             </button>
           ))}
         </div>
-        <RoadmapCard
-          plannedTotal={plannedTotal}
-          inProgressTotal={inProgressTotal}
-          liveTotal={liveTotal}
-        />
+        <RoadmapCard roadmap={roadmap} />
       </section>
       {openMobileMenu && <MobileMenu />}
     </>

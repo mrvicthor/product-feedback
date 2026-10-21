@@ -4,7 +4,7 @@ import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import EmptyFeedback from "../components/emptyFeedback";
-import { createProductFeedbackPageModel } from "../useCases/viewProductFeedback/__tests__/productFeedbackPageModel";
+import { createProductFeedbackPageModel } from "../useCases/viewProductFeedback/productFeedbackPageModel";
 
 const Home = () => {
   const {

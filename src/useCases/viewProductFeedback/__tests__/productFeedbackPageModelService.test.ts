@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProductRequest } from "../../../domain/schema";
-import { createProductFeedbackPageModel } from "./productFeedbackPageModel";
+import { createProductFeedbackPageModel } from "../productFeedbackPageModel";
 
 const feedbacks: ProductRequest[] = [
   {

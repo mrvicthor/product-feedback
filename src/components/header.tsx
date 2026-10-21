@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <header className="bg-[#373F68] h-18 md:rounded-[10px] flex items-center pl-6 pr-4 gap-4">
       <div className="hidden md:block">
-        <img src={logoIcon} />
+        <img src={logoIcon} alt="logo" />
       </div>
       <h3 className="text-white text-lg font-bold hidden md:block">
         {suggestionsLength} suggestions

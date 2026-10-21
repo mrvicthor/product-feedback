@@ -1,13 +1,6 @@
-import {
-  CATEGORIES,
-  editFeedbackSchema,
-  STATUSES,
-  type EditFeedbackDTO,
-  type ProductRequest,
-} from "../../domain/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
+import { CATEGORIES, STATUSES, type ProductRequest } from "../../domain/schema";
+import { Controller } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 import CustomSelectField from "./customSelectField";
 import InputField from "./inputField";
@@ -15,6 +8,7 @@ import arrowLeft from "/assets/shared/icon-arrow-left.svg";
 import editIcon from "/assets/shared/icon-edit-feedback.svg";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import TextareaField from "./textareaField";
+import { useEditFeedbackForm } from "../../hooks/useEditFeedbackForm";
 
 type Props = {
   feedback: ProductRequest;
@@ -23,34 +17,9 @@ const EditFeedbackForm = ({ feedback }: Props) => {
   "use no memo";
   const { dispatch } = useFeedbackContext();
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<EditFeedbackDTO>({
-    resolver: zodResolver(editFeedbackSchema),
-    defaultValues: {
-      id: feedback.id,
-      title: feedback.title,
-      description: feedback.description,
-      category: feedback.category,
-      status: feedback.status,
-    },
-  });
-
-  const onSubmit = (data: EditFeedbackDTO) => {
-    dispatch({
-      type: "update_feedback",
-      feedbackId: data.id,
-      title: data.title,
-      description: data.description,
-      category: data.category,
-      status: data.status,
-    });
-    toast.success("Feedback updated successfully");
-  };
-
+  const { handleSubmit, onSubmit, errors, register, control } =
+    useEditFeedbackForm(feedback, dispatch);
+  console.log({ errors });
   return (
     <section className="mx-auto max-w-xl mt-12 px-6 md:px-0">
       <Link
@@ -61,7 +30,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
       </Link>
       <div className="bg-white mt-17 rounded-lg px-10.5 pt-13 pb-7 relative">
         <div className="absolute -top-6">
-          <img src={editIcon} />
+          <img src={editIcon} alt="edit icon" />
         </div>
         <h1 className="font-bold text-2xl text-[#3A4374] capitalize">
           Editing '{feedback.title}'

@@ -5,7 +5,7 @@ const EmptyFeedback = () => {
   return (
     <div className="bg-white rounded-lg max-w-214 mt-8 md:mt-6 mx-6 md:mx-0 flex flex-col items-center justify-center h-[80vh]">
       <div>
-        <img src={emptyIllustration} />
+        <img src={emptyIllustration} alt="empty board illustration" />
       </div>
       <p className="font-bold text-2xl text-[#3A4374] mt-[53.5px]">
         There is no feedback yet.
@@ -19,7 +19,7 @@ const EmptyFeedback = () => {
         to="/add-feedback"
       >
         {" "}
-        <img src={plusIcon} className="w-3 h-3" /> add feedback
+        <img src={plusIcon} className="w-3 h-3" alt="plus icon" /> add feedback
       </Link>
     </div>
   );

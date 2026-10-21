@@ -47,13 +47,13 @@ const Feedbacks = ({ feedbacks }: Props) => {
                 onClick={() => dispatch({ type: "upvote", feedbackId: f.id })}
                 className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg"
               >
-                <img src={arrowUp} className="h-1 w-2" />{" "}
+                <img src={arrowUp} className="h-1 w-2" alt="arrow up" />{" "}
                 <span className="font-bold text-[13px] text-[#3A4374]">
                   {f.upvotes}
                 </span>
               </button>
               <div className="flex items-center gap-2">
-                <img src={commentIcon} />{" "}
+                <img src={commentIcon} alt="comment icon" />{" "}
                 <span className="font-bold text-[#3A4374] text-[13px]">
                   {f.commentCount}
                 </span>

@@ -33,7 +33,7 @@ const Details = () => {
     (total, c) => total + 1 + (c.replies?.length ?? 0),
     0,
   );
-  console.log({ comments });
+
   const toggleReply = (key: string) =>
     setActiveReplyKey((current) => (current === key ? null : key));
 
@@ -93,7 +93,7 @@ const Details = () => {
           </span>
         </article>
         <div className="flex items-center gap-2 self-center">
-          <img src={CommentsIcon} alt="" className="h-4 w-4.5" />
+          <img src={CommentsIcon} alt="comment icon" className="h-4 w-4.5" />
           <span
             className={`font-bold ${totalComments > 0 ? "text-[#3A4374]" : "text-[#647196] opacity-50"}`}
           >

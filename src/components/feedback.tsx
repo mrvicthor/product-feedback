@@ -47,7 +47,7 @@ const Feedback = ({
         </article>
         <div className="flex justify-center flex-col">
           <div className="flex items-center gap-4">
-            <img src={CommentsIcon} className="h-4 w-4.5" />{" "}
+            <img src={CommentsIcon} className="h-4 w-4.5" alt="comment icon" />{" "}
             <span
               className={`${feedback.commentCount > 0 ? "text-[#3A4374]" : "text-[#647196]"} font-bold`}
             >

@@ -25,6 +25,7 @@ export const ReplyForm = ({
   user,
   replyingTo,
 }: ReplyFormProps) => {
+  "use no memo";
   const {
     handleSubmit,
     register,

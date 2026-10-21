@@ -75,6 +75,8 @@ export type Comment = z.infer<typeof commentSchema>;
 export type ProductRequest = z.infer<typeof productRequestSchema>;
 export type FeedbackData = z.infer<typeof feedbackDataSchema>;
 
+const WORD = String.raw`[\p{L}\p{N}&\/'’.,!?()-]+`;
+
 export const addFeedbackSchema = z.object({
   title: z
     .string()
@@ -83,8 +85,8 @@ export const addFeedbackSchema = z.object({
     .min(5, "Title must be at least 5 characters")
     .max(60, "Title must be 60 characters or less")
     .regex(
-      /^\p{L}+(?: \p{L}+)*$/u,
-      "Feedback title can only contain letters and spaces",
+      new RegExp(`^${WORD}(?: ${WORD})*$`, "u"),
+      "Title can only contain letters, numbers, spaces and basic punctuation",
     ),
   category: categorySchema,
   description: z

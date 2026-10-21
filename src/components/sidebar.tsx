@@ -36,7 +36,10 @@ const Sidebar = () => {
             className="cursor-pointer md:hidden"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}
           >
-            <img src={openMobileMenu ? closeIcon : menuIcon} />
+            <img
+              src={openMobileMenu ? closeIcon : menuIcon}
+              alt="open and close menu icon"
+            />
           </button>
         </div>
         <div className="bg-white hidden md:flex-1 lg:flex-none rounded-[10px] p-6 md:flex gap-x-2 gap-y-3.5 flex-wrap">

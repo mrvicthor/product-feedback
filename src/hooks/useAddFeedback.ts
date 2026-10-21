@@ -3,10 +3,9 @@ import { addFeedbackSchema, type AddFeedbackDTO } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFeedbackContext } from "./useFeedbackContext";
 import { generateId } from "../helpers/generateId";
-import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export function useAddFeedback() {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,8 +36,8 @@ export function useAddFeedback() {
       category,
       description,
     });
+    toast.success("Feedback successfully added");
     reset();
-    navigate("/");
   };
 
   return {

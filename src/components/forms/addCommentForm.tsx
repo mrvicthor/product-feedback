@@ -1,16 +1,17 @@
-import { type ProductRequest } from "../../domain/schema";
+import { type Comment } from "../../domain/schema";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import { useAddComment } from "../../hooks/useAddComment";
 
 type Props = {
   id: number;
-  feedbacks: ProductRequest[];
+  comments: Comment[];
 };
 
 const textareaClasses =
   "w-full resize-none rounded-[5px] border border-transparent bg-[#F7F8FD] px-6 py-4 text-[15px] text-[#3A4374] placeholder:text-[#8C92B3] outline-none focus:border-[#4661E6] cursor-pointer focus:cursor-text";
 
-const AddCommentForm = ({ id, feedbacks }: Props) => {
+const AddCommentForm = ({ id, comments }: Props) => {
+  "use no memo";
   const { dispatch } = useFeedbackContext();
   const {
     handleSubmit,
@@ -19,7 +20,8 @@ const AddCommentForm = ({ id, feedbacks }: Props) => {
     MAX_CHARS,
     register,
     errors,
-  } = useAddComment(id, dispatch, feedbacks);
+  } = useAddComment(id, dispatch, comments);
+
   return (
     <form
       className="shrink-0 rounded-[10px] bg-white px-6 py-6 md:px-8"
@@ -32,7 +34,7 @@ const AddCommentForm = ({ id, feedbacks }: Props) => {
         id="new-comment"
         rows={2}
         maxLength={MAX_CHARS}
-        {...register("content", { required: true })}
+        {...register("content")}
         aria-invalid={errors.content ? "true" : "false"}
         placeholder="Type your comment here"
         className={`mt-6 ${textareaClasses}`}

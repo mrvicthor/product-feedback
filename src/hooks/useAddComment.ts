@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import {
   addCommentSchema,
   type AddCommentDTO,
-  type ProductRequest,
+  type Comment,
 } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { generateId } from "../helpers/generateId";
@@ -13,7 +13,7 @@ const MAX_CHARS = 250;
 export function useAddComment(
   id: number,
   dispatch: React.ActionDispatch<[action: ActionType]>,
-  feedbacks: ProductRequest[],
+  comments: Comment[],
 ) {
   const { image, name, username } = data.currentUser;
 
@@ -45,7 +45,7 @@ export function useAddComment(
       type: "add_comment",
       feedbackId: Number(id),
       content,
-      contentId: generateId(feedbacks),
+      contentId: generateId(comments),
       user,
     });
     reset();

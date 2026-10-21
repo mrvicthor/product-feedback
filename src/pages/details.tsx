@@ -33,7 +33,7 @@ const Details = () => {
     (total, c) => total + 1 + (c.replies?.length ?? 0),
     0,
   );
-
+  console.log({ comments });
   const toggleReply = (key: string) =>
     setActiveReplyKey((current) => (current === key ? null : key));
 
@@ -164,7 +164,7 @@ const Details = () => {
           </ul>
         )}
       </section>
-      <AddCommentForm id={detail.id} feedbacks={feedbacks} />
+      <AddCommentForm id={detail.id} comments={comments} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useMemo, useState, type KeyboardEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { ProductRequest, Status } from "../domain/schema";
 import { getBgColor } from "../helpers/getBgColor";
 import arrowUp from "/assets/shared/icon-arrow-up.svg";
@@ -14,34 +14,21 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { dispatch } = useFeedbackContext();
   const filteredTabs = tabs.filter((tab) => tab !== "suggestion");
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
   function handleKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
+    const last = filteredTabs.length - 1;
+    const targets: Record<string, number> = {
+      ArrowRight: activeIndex === last ? 0 : activeIndex + 1,
+      ArrowLeft: activeIndex === 0 ? last : activeIndex - 1,
+      Home: 0,
+      End: last,
+    };
+    if (!(e.key in targets)) return;
     e.preventDefault();
-    const { key } = e;
-
-    switch (key) {
-      case "ArrowRight":
-      case "ArrowDown":
-        setActiveIndex((prev) =>
-          prev === filteredTabs.length - 1 ? 0 : prev + 1,
-        );
-        return;
-      case "ArrowUp":
-      case "ArrowLeft":
-        setActiveIndex((prev) =>
-          prev === 0 ? filteredTabs.length - 1 : prev - 1,
-        );
-        return;
-      case "Home":
-        e.preventDefault();
-        setActiveIndex(0);
-        return;
-      case "End":
-        e.preventDefault();
-        setActiveIndex(filteredTabs.length - 1);
-        return;
-    }
+    setActiveIndex(targets[e.key]);
+    tabRefs.current[targets[e.key]]?.focus();
   }
-
   const visibleFeedbacks = useMemo(
     () => feedbacks.filter((f) => f.status === filteredTabs[activeIndex]),
     [activeIndex, feedbacks, filteredTabs],
@@ -54,12 +41,16 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
           .filter((option) => option !== "suggestion")
           .map((option, index) => (
             <button
+              ref={(el) => {
+                tabRefs.current[index] = el;
+              }}
               key={index}
-              id={option}
+              id={`${option}-tab`}
               type="button"
               role="tab"
               aria-selected={index === activeIndex ? "true" : "false"}
-              aria-controls={option}
+              aria-controls={`${option}-panel`}
+              tabIndex={index === activeIndex ? 0 : -1}
               className={`flex flex-1 justify-center items-center capitalize ${index === activeIndex ? "border-b-4 text-[#3A4374]" : "border-0 text-gray-400"} text-[13px] font-bold focus-visible:text-[#3A4374] py-5`}
               style={{
                 borderBottomColor: getBgColor(option as Status),
@@ -72,9 +63,9 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
           ))}
       </div>
       <div
-        id={filteredTabs[activeIndex]}
+        id={`${filteredTabs[activeIndex]}-panel`}
         role="tabpanel"
-        aria-labelledby={filteredTabs[activeIndex]}
+        aria-labelledby={`${filteredTabs[activeIndex]}-tab`}
         className="p-6"
       >
         <h2 className="text-lg font-bold text-[#3A4374] capitalize">

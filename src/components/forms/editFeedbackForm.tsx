@@ -15,15 +15,14 @@ import arrowLeft from "/assets/shared/icon-arrow-left.svg";
 import editIcon from "/assets/shared/icon-edit-feedback.svg";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import TextareaField from "./textareaField";
-import { useRef } from "react";
 
 type Props = {
   feedback: ProductRequest;
 };
 const EditFeedbackForm = ({ feedback }: Props) => {
+  "use no memo";
   const { dispatch } = useFeedbackContext();
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const textRef = useRef<HTMLTextAreaElement | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -39,8 +38,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
       status: feedback.status,
     },
   });
-  const { ref: titleRef, ...titleField } = register("title");
-  const { ref: descriptionRef, ...descriptionField } = register("description");
+
   const onSubmit = (data: EditFeedbackDTO) => {
     dispatch({
       type: "update_feedback",
@@ -74,11 +72,6 @@ const EditFeedbackForm = ({ feedback }: Props) => {
             description="Add a short, descriptive headline"
             error={errors.title?.message}
             {...register("title")}
-            {...titleField}
-            ref={(el) => {
-              titleRef(el);
-              inputRef.current = el;
-            }}
           />
 
           <Controller
@@ -115,11 +108,6 @@ const EditFeedbackForm = ({ feedback }: Props) => {
               etc."
             error={errors.description?.message}
             {...register("description")}
-            {...descriptionField}
-            ref={(el) => {
-              descriptionRef(el);
-              textRef.current = el;
-            }}
           />
 
           <div className="flex flex-col md:flex-row md:justify-between gap-4">

@@ -7,6 +7,7 @@ import TextareaField from "./textareaField";
 import { Link } from "react-router";
 
 const AddFeedbackForm = () => {
+  "use no memo"; //The React Compiler (enabled in vite.config.ts) memoizes register("content") on the identity of register, which never changes, so it only runs on the first render.
   const { handleSubmit, onSubmit, control, register, errors, isSubmitting } =
     useAddFeedback();
   return (

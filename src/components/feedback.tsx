@@ -22,6 +22,7 @@ const Feedback = ({
     >
       <div className="h-full w-full rounded-[10px] bg-white py-7 px-8 flex gap-10 justify-between group cursor-pointer">
         <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             dispatch({ type: "upvote", feedbackId: feedback.id });

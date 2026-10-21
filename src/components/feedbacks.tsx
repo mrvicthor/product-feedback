@@ -43,6 +43,7 @@ const Feedbacks = ({ feedbacks }: Props) => {
             </span>
             <div className="mt-4 flex items-center justify-between">
               <button
+                type="button"
                 onClick={() => dispatch({ type: "upvote", feedbackId: f.id })}
                 className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg"
               >

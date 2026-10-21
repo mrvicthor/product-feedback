@@ -29,6 +29,7 @@ const Sidebar = () => {
             </p>
           </div>
           <button
+            type="button"
             className="cursor-pointer md:hidden"
             onClick={() => setOpenMobileMenu(!openMobileMenu)}
           >
@@ -37,6 +38,7 @@ const Sidebar = () => {
         </div>
         <div className="bg-white hidden md:flex-1 lg:flex-none rounded-[10px] p-6 md:flex gap-x-2 gap-y-3.5 flex-wrap">
           <button
+            type="button"
             onClick={() => {
               setFilterBy(null);
               setSelectedFeature("all" as Category);
@@ -47,6 +49,7 @@ const Sidebar = () => {
           </button>
           {CATEGORIES.map((category, index) => (
             <button
+              type="button"
               key={index}
               onClick={() => {
                 setFilterBy(category);

@@ -76,6 +76,7 @@ const Details = () => {
       {/* Feedback card */}
       <div className="shrink-0 rounded-[10px] bg-white p-6 md:p-8 flex items-start gap-10">
         <button
+          type="button"
           onClick={() => dispatch({ type: "upvote", feedbackId: Number(id) })}
           className="flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] bg-[#F2F4FE] transition-colors hover:bg-[#CFD7FF]"
         >

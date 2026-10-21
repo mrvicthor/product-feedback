@@ -34,6 +34,7 @@ const Card = ({ feedback, cardColor }: CardProps) => {
             onClick={() =>
               dispatch({ type: "upvote", feedbackId: feedback.id })
             }
+            type="button"
             className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg"
           >
             <img src={arrowUp} className="h-1 w-2" />{" "}

@@ -15,11 +15,6 @@ type SortDropdownProps<T extends SortBy> = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-/**
- * Select-only combobox (WAI-ARIA APG pattern).
- * Focus stays on the button; the highlighted option is announced through
- * aria-activedescendant, so screen readers follow it without focus moving.
- */
 export function SortDropdown<T extends SortBy>({
   options,
   value,

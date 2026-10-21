@@ -17,7 +17,6 @@ type CommentItemProps = {
   };
 };
 
-// data.json paths start with "./assets/..." — make them root-relative
 const avatarSrc = (path: string) => path.replace(/^\.\//, "/");
 
 export const CommentItem = ({

@@ -37,6 +37,7 @@ const MobileMenu = () => {
       >
         <div className="bg-white rounded-[10px] p-6 flex gap-2 flex-wrap">
           <button
+            type="button"
             onClick={() => {
               setFilterBy(null);
               setSelectedFeature("all" as Category);
@@ -47,6 +48,7 @@ const MobileMenu = () => {
           </button>
           {CATEGORIES.map((category, index) => (
             <button
+              type="button"
               key={index}
               onClick={() => {
                 setFilterBy(category);

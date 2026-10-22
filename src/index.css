@@ -11,8 +11,6 @@
   body {
     font-family: "Jost", sans-serif;
     background: #f2f4ff;
+    overflow-x: clip;
   }
-}
-
-@layer components {
 }

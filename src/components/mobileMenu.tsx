@@ -63,6 +63,7 @@ const MobileMenu = () => {
             <button
               type="button"
               key={index}
+              aria-pressed={category.isActive}
               onClick={() => {
                 setFilterBy(category.value);
                 setSelectedFeature(category.value as Category);

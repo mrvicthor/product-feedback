@@ -16,8 +16,8 @@ const Header = ({ suggestionCount }: Props) => {
       <div className="hidden md:block">
         <img src={logoIcon} alt="logo" />
       </div>
-      <h3 className="text-white text-lg font-bold hidden md:block">
-        {suggestionCount} suggestions
+      <h3 className="text-white text-lg font-bold hidden md:block capitalize">
+        {suggestionCount} suggestion{suggestionCount === 0 ? "" : "s"}
       </h3>
 
       <SortDropdown

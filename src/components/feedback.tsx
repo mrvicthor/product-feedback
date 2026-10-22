@@ -17,7 +17,10 @@ const Feedback = ({ feedback }: Props) => {
         className="bg-[#F2F4FE] w-10 h-13.25 cursor-pointer hover:bg[#CFD7FF] hidden  md:flex md:flex-col gap-2 items-center px-4 py-2.75 rounded-lg"
       >
         <img src={arrowUp} className="h-1 w-2" alt="arrow up" />{" "}
-        <span className="font-bold text-[13px] text-[#3A4374]">
+        <span
+          data-testid="upvote-count"
+          className="font-bold text-[13px] text-[#3A4374]"
+        >
           {feedback.upvotes}
         </span>
       </button>

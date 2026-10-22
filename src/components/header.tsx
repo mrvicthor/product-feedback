@@ -4,17 +4,12 @@ import { SORT_OPTIONS } from "../domain/schema";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 
 import AddNewFeedbackButton from "./addNewFeedbackButton";
-const Header = () => {
-  const {
-    sortBy,
-    setSortBy,
-    openSortBy,
-    setOpenSortBy,
-    state: { feedbacks },
-  } = useFeedbackContext();
-  const suggestionsLength = feedbacks.filter(
-    (item) => item.status === "suggestion",
-  ).length;
+
+type Props = {
+  suggestionCount: number;
+};
+const Header = ({ suggestionCount }: Props) => {
+  const { sortBy, setSortBy, openSortBy, setOpenSortBy } = useFeedbackContext();
 
   return (
     <header className="bg-[#373F68] h-18 md:rounded-[10px] flex items-center pl-6 pr-4 gap-4">
@@ -22,7 +17,7 @@ const Header = () => {
         <img src={logoIcon} alt="logo" />
       </div>
       <h3 className="text-white text-lg font-bold hidden md:block">
-        {suggestionsLength} suggestions
+        {suggestionCount} suggestions
       </h3>
 
       <SortDropdown

@@ -18,6 +18,7 @@ export type FeedbackCardModel = {
 export type ProductFeedbackPageModel = {
   feedbacks: FeedbackCardModel[];
   isEmpty: boolean;
+  suggestionCount: number;
 };
 
 const countComments = (request: ProductRequest) =>
@@ -62,5 +63,6 @@ export function createProductFeedbackPageModel(
       }))
       .sort(comparators[sortBy]),
     isEmpty: visible.length === 0,
+    suggestionCount: visible.filter((f) => f.status === "suggestion").length,
   };
 }

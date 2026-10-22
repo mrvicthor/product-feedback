@@ -16,7 +16,7 @@ type ReplyFormProps = {
 
 const MAX_CHARS = 250;
 const textareaClasses =
-  "w-full resize-none rounded-[5px] border  bg-[#F7F8FD] px-6 py-4 text-[15px] text-[#3A4374] placeholder:text-[#8C92B3] outline-none focus:border-[#4661E6] cursor-pointer focus:cursor-text";
+  "w-full resize-none rounded-[5px] border  bg-[#F7F8FD] px-6 py-4 text-base md:text-[15px] text-[#3A4374] placeholder:text-[#8C92B3] outline-none focus:border-[#4661E6] cursor-pointer focus:cursor-text";
 
 export const ReplyForm = ({
   username,

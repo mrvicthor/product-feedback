@@ -134,7 +134,7 @@ const Details = () => {
                   />
 
                   {c.replies && c.replies.length > 0 && (
-                    <ul className="mt-6 ml-5 space-y-8 border-l border-[#647196]/10 pl-6">
+                    <ul className="mt-6 space-y-8 border-l border-[#647196]/10 pl-6 md:ml-5">
                       {c.replies.map((r: Reply, i) => {
                         const replyKey = `${commentKey}-reply-${i}`;
                         return (

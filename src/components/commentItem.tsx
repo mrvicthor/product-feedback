@@ -31,7 +31,7 @@ export const CommentItem = ({
   onPostReply,
   user,
 }: CommentItemProps) => (
-  <div className="flex gap-8">
+  <div className="flex gap-4 md:gap-8">
     <img
       src={avatarSrc(image)}
       alt=""

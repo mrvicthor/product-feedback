@@ -47,10 +47,10 @@ export const ReplyForm = ({
 
   return (
     <form
-      className="mt-6 flex flex-col md:flex-row items-start gap-4"
+      className="mt-6 flex flex-col items-stretch gap-4 md:flex-row md:items-start"
       onSubmit={handleSubmit(submitReply)}
     >
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-col md:flex-1">
         <textarea
           autoFocus
           rows={2}
@@ -71,7 +71,7 @@ export const ReplyForm = ({
 
       <button
         type="submit"
-        className="shrink-0 cursor-pointer rounded-[10px] bg-[#AD1FEA] px-6 py-3 text-sm font-bold text-[#F2F4FE] transition-colors hover:bg-[#C75AF6]"
+        className="shrink-0 self-end cursor-pointer rounded-[10px] bg-[#AD1FEA] px-6 py-3 text-sm font-bold text-[#F2F4FE] transition-colors hover:bg-[#C75AF6] md:self-auto"
       >
         Post Reply
       </button>

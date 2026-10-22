@@ -110,16 +110,26 @@ const feedbacks: ProductRequest[] = [
 
 describe("createProductFeedbackPageModel", () => {
   it("filters by category", () => {
-    const model = createProductFeedbackPageModel(feedbacks, "bug");
+    const model = createProductFeedbackPageModel(
+      feedbacks,
+      "bug",
+      "most_upvotes",
+    );
     expect(model.feedbacks.every((f) => f.category === "bug")).toBe(true);
   });
 
   it("counts replies in the comment total", () => {
-    const model = createProductFeedbackPageModel(feedbacks, null);
+    const model = createProductFeedbackPageModel(
+      feedbacks,
+      null,
+      "most_upvotes",
+    );
     expect(model.feedbacks[0].commentCount).toBe(2);
   });
 
   it("flags an empty result", () => {
-    expect(createProductFeedbackPageModel([], null).isEmpty).toBe(true);
+    expect(
+      createProductFeedbackPageModel([], null, "most_upvotes").isEmpty,
+    ).toBe(true);
   });
 });

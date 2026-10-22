@@ -37,7 +37,7 @@ export function SortDropdown<T extends SortBy>({
     close,
     open,
   } = useSortDropdown(options, value, onChange, setIsOpen, isOpen);
-  const { dispatch } = useFeedbackContext();
+  const { setSortBy } = useFeedbackContext();
 
   return (
     <div ref={rootRef} className="relative inline-block">
@@ -100,7 +100,7 @@ export function SortDropdown<T extends SortBy>({
               aria-selected={isSelected}
               onClick={() => {
                 select(index);
-                dispatch({ type: "sort", sortBy: option.value });
+                setSortBy(option.value);
               }}
               onMouseMove={() => setActiveIndex(index)}
               className={`flex cursor-pointer items-center justify-between px-6 py-3 capitalize ${

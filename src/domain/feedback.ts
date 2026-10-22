@@ -1,5 +1,5 @@
 import { updateById } from "../helpers/updateById";
-import type { Category, ProductRequest, SortBy, Status, User } from "./schema";
+import type { Category, ProductRequest, Status, User } from "./schema";
 
 export type FeedbackData = {
   feedbacks: ProductRequest[];
@@ -12,10 +12,6 @@ export type ActionType =
       title: string;
       category: Category;
       description: string;
-    }
-  | {
-      type: "sort";
-      sortBy: SortBy;
     }
   | {
       type: "upvote";
@@ -70,24 +66,7 @@ export function feedbackReducer(
         ],
       };
     }
-    case "sort": {
-      return {
-        ...state,
-        feedbacks: [
-          ...state.feedbacks.sort((a, b) => {
-            if (action.sortBy === "most_upvotes") return b.upvotes - a.upvotes;
-            if (action.sortBy === "least_upvotes") return a.upvotes - b.upvotes;
-            if (!a.comments || !b.comments) {
-              return b.upvotes - a.upvotes;
-            } else {
-              return action.sortBy === "least_comments"
-                ? a.comments.length - b.comments.length
-                : b.comments.length - a.comments.length;
-            }
-          }),
-        ],
-      };
-    }
+
     case "upvote": {
       return {
         ...state,

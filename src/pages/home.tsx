@@ -10,16 +10,17 @@ const Home = () => {
   const {
     state: { feedbacks },
     filterBy,
+    sortBy,
   } = useFeedbackContext();
 
   const viewModel = useMemo(
-    () => createProductFeedbackPageModel(feedbacks, filterBy),
-    [feedbacks, filterBy],
+    () => createProductFeedbackPageModel(feedbacks, filterBy, sortBy),
+    [feedbacks, filterBy, sortBy],
   );
 
   return (
     <>
-      <main className="max-w-6xl mx-auto h-dvh lg:grid lg:grid-cols-4 md:py-6 md:space-y-10 lg:space-y-0 lg:gap-x-7.5 md:px-6 overflow-hidden">
+      <main className="max-w-6xl mx-auto lg:grid lg:grid-cols-4 md:py-6 md:space-y-10 lg:space-y-0 lg:gap-x-7.5 md:px-6">
         <Sidebar />
         <section className="col-span-3 flex flex-1 flex-col min-w-0 min-h-0">
           <Header />

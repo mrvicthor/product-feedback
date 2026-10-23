@@ -65,4 +65,12 @@ test.describe("feedback request page", () => {
     await card.getByRole("link").click();
     await expect(page).toHaveURL(`/detail/1`);
   });
+
+  test("navigates to the add feedback page", async ({ page }) => {
+    await page.getByRole("link", { name: /add feedback/i }).click();
+    await expect(page).toHaveURL(/\/add-feedback$/);
+    await expect(
+      page.getByRole("heading", { name: /create new feedback/i }),
+    ).toBeVisible();
+  });
 });

@@ -81,4 +81,14 @@ test.describe("feedback request page", () => {
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/add-feedback$/);
   });
+
+  test("Go Back returns to the home", async ({ page }) => {
+    await page.getByRole("link", { name: /add feedback/i }).click();
+    await expect(page).toHaveURL(/\/add-feedback$/);
+    await page.getByRole("link", { name: /go back/i }).click();
+    await expect(page).toHaveURL("/");
+    await expect(
+      page.getByText("More comprehensive reports", { exact: true }),
+    ).toBeVisible();
+  });
 });

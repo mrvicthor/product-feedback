@@ -54,4 +54,15 @@ test.describe("feedback request page", () => {
     await expect(count).toHaveText(String(before));
     await expect(button).toHaveAttribute("aria-pressed", "false");
   });
+
+  test("should navigate to details page when the title is clicked", async ({
+    page,
+  }) => {
+    const card = page
+      .getByRole("listitem")
+      .filter({ has: page.getByRole("link", { name: TITLE }) });
+
+    await card.getByRole("link").click();
+    await expect(page).toHaveURL(`/detail/1`);
+  });
 });

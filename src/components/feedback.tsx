@@ -15,8 +15,10 @@ const Feedback = ({ feedback }: Props) => {
     <li className="bg-white p-6 rounded-lg md:flex  md:justify-between md:gap-10">
       <button
         type="button"
+        aria-label={`Upvote ${feedback.title}`}
+        aria-pressed={feedback.isUpvoted}
         onClick={() => handleUpvote(feedback.id, upvotedSet, setUpvotedSet)}
-        className={`${feedback.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg[#CFD7FF] text-[#3A4374]"} h-15 cursor-pointer hidden md:flex md:flex-col gap-1 items-center px-3 py-1.5 rounded-lg`}
+        className={`${feedback.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg-[#CFD7FF] text-[#3A4374]"} h-15 cursor-pointer hidden md:flex md:flex-col gap-1 items-center px-3 py-1.5 rounded-lg`}
       >
         <ChevronUp size={16} color={feedback.isUpvoted ? "white" : "#3A4374"} />
 

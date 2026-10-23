@@ -31,7 +31,7 @@ const DetailCard = ({
       <button
         type="button"
         onClick={() => handleUpvote(Number(id), upvotedSet, setUpvotedSet)}
-        className={`flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] ${isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg[#CFD7FF] text-[#3A4374]"}`}
+        className={`flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] ${isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg-[#CFD7FF] text-[#3A4374]"}`}
       >
         <ChevronUp
           size={16}

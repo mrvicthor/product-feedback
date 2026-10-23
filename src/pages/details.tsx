@@ -9,7 +9,7 @@ import NotFound from "../components/notFound";
 import AddCommentForm from "../components/forms/addCommentForm";
 import data from "../data.json";
 
-import { createDetailPageModel } from "../useCases/viewDetailsPageModel/DetailPageModel";
+import { createDetailPageModel } from "../useCases/viewDetailsPageModel/detailsPageModel";
 import DetailCard from "../components/detailCard";
 
 type Comment = NonNullable<ProductRequest["comments"]>[number];

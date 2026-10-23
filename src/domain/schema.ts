@@ -58,9 +58,9 @@ export const productRequestSchema = z.object({
   title: z.string(),
   category: categorySchema,
   upvotes: z.number().int().nonnegative(),
+  isUpvoted: z.boolean().default(false),
   status: statusSchema,
   description: z.string(),
-  // Some requests have no comments key at all.
   comments: z.array(commentSchema).optional(),
 });
 

@@ -1,10 +1,11 @@
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import type { ProductRequest, Status } from "../domain/schema";
 import { getBgColor } from "../helpers/getBgColor";
-import arrowUp from "/assets/shared/icon-arrow-up.svg";
 import commentIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
+import { handleUpvote } from "../helpers/handleUpvote";
+import { ChevronUp } from "lucide-react";
 
 type Props<T extends string> = {
   tabs: readonly T[];
@@ -12,7 +13,7 @@ type Props<T extends string> = {
 };
 const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { dispatch } = useFeedbackContext();
+  const { upvotedSet, setUpvotedSet } = useFeedbackContext();
   const filteredTabs = tabs.filter((tab) => tab !== "suggestion");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -120,13 +121,14 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
               <div className="mt-4 flex items-center justify-between">
                 <button
                   type="button"
-                  onClick={() => dispatch({ type: "upvote", feedbackId: f.id })}
-                  className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-6 py-2.75 rounded-lg"
+                  onClick={() => handleUpvote(f.id, upvotedSet, setUpvotedSet)}
+                  className={`${f.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg[#CFD7FF] text-[#3A4374]"} flex gap-2 items-center px-6 py-2.75 rounded-lg`}
                 >
-                  <img src={arrowUp} className="h-1 w-2" alt="arrow up" />{" "}
-                  <span className="font-bold text-[13px] text-[#3A4374]">
-                    {f.upvotes}
-                  </span>
+                  <ChevronUp
+                    size={10}
+                    color={f.isUpvoted ? "white" : "#3A4374"}
+                  />
+                  <span className="font-bold text-[13px]">{f.upvotes}</span>
                 </button>
                 <div className="flex items-center gap-2">
                   <img src={commentIcon} />{" "}

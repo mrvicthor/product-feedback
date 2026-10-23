@@ -1,14 +1,15 @@
+import { ChevronUp } from "lucide-react";
 import type { ProductRequest } from "../domain/schema";
+import { handleUpvote } from "../helpers/handleUpvote";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
-import arrowUp from "/assets/shared/icon-arrow-up.svg";
 import commentIcon from "/assets/shared/icon-comments.svg";
 type CardProps = {
   feedback: ProductRequest;
   cardColor: string;
 };
 const Card = ({ feedback, cardColor }: CardProps) => {
-  const { title, description, category, upvotes, comments } = feedback;
-  const { dispatch } = useFeedbackContext();
+  const { title, description, category, upvotes, comments, id } = feedback;
+  const { setUpvotedSet, upvotedSet } = useFeedbackContext();
   return (
     <div>
       <div
@@ -31,16 +32,15 @@ const Card = ({ feedback, cardColor }: CardProps) => {
         </span>
         <div className="mt-4 flex items-center justify-between">
           <button
-            onClick={() =>
-              dispatch({ type: "upvote", feedbackId: feedback.id })
-            }
+            onClick={() => handleUpvote(id, upvotedSet, setUpvotedSet)}
             type="button"
-            className="bg-[#F2F4FE] cursor-pointer hover:bg[#CFD7FF]  flex gap-2 items-center px-4 py-2.75 rounded-lg"
+            className={`${feedback.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg[#CFD7FF] text-[#3A4374]"} flex gap-2 items-center px-4 py-2.75 rounded-lg`}
           >
-            <img src={arrowUp} className="h-1 w-2" alt="arrow up" />{" "}
-            <span className="font-bold text-[13px] text-[#3A4374]">
-              {upvotes}
-            </span>
+            <ChevronUp
+              size={10}
+              color={feedback.isUpvoted ? "white" : "#3A4374"}
+            />
+            <span className="font-bold text-[13px]">{upvotes}</span>
           </button>
           <div className="flex items-center gap-2">
             <img src={commentIcon} alt="comment icon" />{" "}

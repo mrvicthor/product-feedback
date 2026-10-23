@@ -4,6 +4,7 @@ import type {
   SortBy,
   Status,
 } from "../../domain/schema";
+import { countComments } from "../../helpers/countComments";
 
 export type FeedbackCardModel = {
   id: number;
@@ -11,6 +12,7 @@ export type FeedbackCardModel = {
   description: string;
   category: Category;
   upvotes: number;
+  isUpvoted: boolean;
   commentCount: number;
   status: Status;
 };
@@ -20,12 +22,6 @@ export type ProductFeedbackPageModel = {
   isEmpty: boolean;
   suggestionCount: number;
 };
-
-const countComments = (request: ProductRequest) =>
-  (request.comments ?? []).reduce(
-    (total, c) => total + 1 + (c.replies?.length ?? 0),
-    0,
-  );
 
 const comparators: Record<
   SortBy,
@@ -41,6 +37,7 @@ export function createProductFeedbackPageModel(
   requests: ProductRequest[],
   filterBy: Category | null,
   sortBy: SortBy,
+  upvotedSet: number[],
 ): ProductFeedbackPageModel {
   const visible =
     filterBy === null
@@ -56,7 +53,8 @@ export function createProductFeedbackPageModel(
         id: r.id,
         title: r.title,
         category: r.category,
-        upvotes: r.upvotes,
+        upvotes: new Set(upvotedSet).has(r.id) ? r.upvotes + 1 : r.upvotes,
+        isUpvoted: new Set(upvotedSet).has(r.id),
         status: r.status,
         description: r.description,
         commentCount: countComments(r),

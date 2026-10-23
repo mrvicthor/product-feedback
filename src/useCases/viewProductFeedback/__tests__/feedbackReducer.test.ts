@@ -22,6 +22,7 @@ describe("feedback reducer", () => {
       title: "Add tags for solutions",
       category: "enhancement",
       upvotes: 1,
+      isUpvoted: false,
       status: "suggestion",
       description: "Easier to search for solutions based on a specific stack.",
     };
@@ -42,6 +43,7 @@ describe("feedback reducer", () => {
           title: "Add tags for solutions",
           category: "enhancement",
           upvotes: 0,
+          isUpvoted: false,
           status: "suggestion",
           description:
             "Easier to search for solutions based on a specific stack.",

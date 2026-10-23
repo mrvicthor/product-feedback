@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
-import { ChevronLeft, ChevronUp } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import { type ProductRequest } from "../domain/schema";
-import CommentsIcon from "/assets/shared/icon-comments.svg";
+
 import { CommentItem } from "../components/commentItem";
 import NotFound from "../components/notFound";
 import AddCommentForm from "../components/forms/addCommentForm";
 import data from "../data.json";
+
+import { createDetailPageModel } from "../useCases/viewDetailsPageModel/DetailPageModel";
+import DetailCard from "../components/detailCard";
 
 type Comment = NonNullable<ProductRequest["comments"]>[number];
 type Reply = NonNullable<Comment["replies"]>[number];
@@ -20,19 +23,28 @@ const Details = () => {
   const {
     state: { feedbacks },
     dispatch,
+    upvotedSet,
+    setUpvotedSet,
   } = useFeedbackContext();
-
-  const detail = feedbacks.find((f) => f.id === Number(id));
-
-  if (!detail) {
+  const viewModel = createDetailPageModel(feedbacks, Number(id), upvotedSet);
+  if (!viewModel) {
     return <NotFound />;
   }
+  const detail = viewModel.detail;
 
-  const { upvotes, title, description, category, comments = [] } = detail;
-  const totalComments = comments.reduce(
-    (total, c) => total + 1 + (c.replies?.length ?? 0),
-    0,
-  );
+  const {
+    upvotes,
+    title,
+    description,
+    category,
+    comments = [],
+    commentCount: totalComments,
+    isUpvoted,
+  } = detail;
+  //   const totalComments = comments.reduce(
+  //     (total, c) => total + 1 + (c.replies?.length ?? 0),
+  //     0,
+  //   );
 
   const toggleReply = (key: string) =>
     setActiveReplyKey((current) => (current === key ? null : key));
@@ -73,36 +85,18 @@ const Details = () => {
         </Link>
       </div>
 
-      {/* Feedback card */}
-      <div className="shrink-0 rounded-[10px] bg-white p-6 md:p-8 flex items-start gap-10">
-        <button
-          type="button"
-          onClick={() => dispatch({ type: "upvote", feedbackId: Number(id) })}
-          className="flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] bg-[#F2F4FE] transition-colors hover:bg-[#CFD7FF]"
-        >
-          <ChevronUp size={14} color="#4661E6" strokeWidth={3} />
-          <span className="text-[13px] font-bold text-[#3A4374]">
-            {upvotes}
-          </span>
-        </button>
-        <article className="min-w-0 flex-1">
-          <h1 className="text-lg font-bold text-[#3A4374]">{title}</h1>
-          <p className="mt-1 text-base text-[#647196]">{description}</p>
-          <span className="mt-3 inline-block rounded-[10px] bg-[#F2F4FE] px-4 py-1.5 text-[13px] font-semibold capitalize text-[#4661E6]">
-            {category}
-          </span>
-        </article>
-        <div className="flex items-center gap-2 self-center">
-          <img src={CommentsIcon} alt="comment icon" className="h-4 w-4.5" />
-          <span
-            className={`font-bold ${totalComments > 0 ? "text-[#3A4374]" : "text-[#647196] opacity-50"}`}
-          >
-            {totalComments}
-          </span>
-        </div>
-      </div>
+      <DetailCard
+        id={detail.id}
+        upvotedSet={upvotedSet}
+        setUpvotedSet={setUpvotedSet}
+        upvotes={upvotes}
+        title={title}
+        description={description}
+        totalComments={totalComments}
+        category={category}
+        isUpvoted={isUpvoted}
+      />
 
-      {/* Comments — the only part that scrolls */}
       <section className="min-h-0 flex-1 overflow-y-auto rounded-[10px] bg-white px-6 pb-6 md:px-8 md:pb-8">
         <h2 className="sticky top-0 z-10 bg-white pt-6 pb-1 text-lg font-bold text-[#3A4374]">
           {totalComments} {totalComments === 1 ? "Comment" : "Comments"}

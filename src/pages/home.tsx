@@ -11,11 +11,13 @@ const Home = () => {
     state: { feedbacks },
     filterBy,
     sortBy,
+    upvotedSet,
   } = useFeedbackContext();
 
   const viewModel = useMemo(
-    () => createProductFeedbackPageModel(feedbacks, filterBy, sortBy),
-    [feedbacks, filterBy, sortBy],
+    () =>
+      createProductFeedbackPageModel(feedbacks, filterBy, sortBy, upvotedSet),
+    [feedbacks, filterBy, sortBy, upvotedSet],
   );
 
   return (

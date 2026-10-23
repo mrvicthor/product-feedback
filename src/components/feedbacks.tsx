@@ -5,6 +5,7 @@ type Props = {
   feedbacks: FeedbackCardModel[];
 };
 const Feedbacks = ({ feedbacks }: Props) => {
+  console.log({ feedbacks });
   return (
     <ul className=" px-6 md:px-0 my-8 pb-8 space-y-4">
       {feedbacks.map((f) => (

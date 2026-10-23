@@ -27,6 +27,8 @@ export type FeedbackContextType = {
   >;
   openMobileMenu: boolean;
   setOpenMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  upvotedSet: number[];
+  setUpvotedSet: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 export const FeedbackContext = createContext<FeedbackContextType | undefined>(

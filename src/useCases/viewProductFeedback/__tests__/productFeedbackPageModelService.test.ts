@@ -8,6 +8,7 @@ const feedbacks: ProductRequest[] = [
     title: "Add tags for solutions",
     category: "enhancement",
     upvotes: 112,
+    isUpvoted: false,
     status: "suggestion",
     description: "Easier to search for solutions based on a specific stack.",
     comments: [
@@ -38,6 +39,7 @@ const feedbacks: ProductRequest[] = [
     title: "Add a dark theme option",
     category: "feature",
     upvotes: 99,
+    isUpvoted: false,
     status: "suggestion",
     description:
       "It would help people with light sensitivities and who prefer dark mode.",
@@ -91,6 +93,7 @@ const feedbacks: ProductRequest[] = [
     title: "Q&A within the challenge hubs",
     category: "feature",
     upvotes: 65,
+    isUpvoted: false,
     status: "suggestion",
     description: "Challenge-specific Q&A would make for easy reference.",
     comments: [
@@ -114,6 +117,7 @@ describe("createProductFeedbackPageModel", () => {
       feedbacks,
       "bug",
       "most_upvotes",
+      [],
     );
     expect(model.feedbacks.every((f) => f.category === "bug")).toBe(true);
   });
@@ -123,13 +127,14 @@ describe("createProductFeedbackPageModel", () => {
       feedbacks,
       null,
       "most_upvotes",
+      [],
     );
     expect(model.feedbacks[0].commentCount).toBe(2);
   });
 
   it("flags an empty result", () => {
     expect(
-      createProductFeedbackPageModel([], null, "most_upvotes").isEmpty,
+      createProductFeedbackPageModel([], null, "most_upvotes", []).isEmpty,
     ).toBe(true);
   });
 });

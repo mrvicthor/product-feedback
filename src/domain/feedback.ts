@@ -14,10 +14,6 @@ export type ActionType =
       description: string;
     }
   | {
-      type: "upvote";
-      feedbackId: number;
-    }
-  | {
       type: "update_feedback";
       feedbackId: number;
       title: string;
@@ -60,20 +56,10 @@ export function feedbackReducer(
             title: action.title,
             category: action.category,
             upvotes: 0,
+            isUpvoted: false,
             status: "suggestion",
             description: action.description,
           },
-        ],
-      };
-    }
-
-    case "upvote": {
-      return {
-        ...state,
-        feedbacks: [
-          ...state.feedbacks.map((f) =>
-            f.id === action.feedbackId ? { ...f, upvotes: f.upvotes + 1 } : f,
-          ),
         ],
       };
     }

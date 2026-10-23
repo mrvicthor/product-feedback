@@ -73,4 +73,12 @@ test.describe("feedback request page", () => {
       page.getByRole("heading", { name: /create new feedback/i }),
     ).toBeVisible();
   });
+
+  test("works with the keyboard", async ({ page }) => {
+    const link = page.getByRole("link", { name: /add feedback/i });
+
+    await link.focus();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/add-feedback$/);
+  });
 });

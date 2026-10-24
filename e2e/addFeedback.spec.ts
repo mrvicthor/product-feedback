@@ -88,4 +88,9 @@ test.describe("Add Feedback page", () => {
     await page.getByRole("button", { name: /add feedback/i }).click();
     await expect(page.getByText(/at least 5 characters/i)).toBeVisible();
   });
+
+  test("cancel returns back to the home page", async ({ page }) => {
+    await page.getByRole("link", { name: /cancel/i }).click();
+    await expect(page).toHaveURL(/\/$/);
+  });
 });

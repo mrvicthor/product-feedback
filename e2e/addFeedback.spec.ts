@@ -49,4 +49,18 @@ test.describe("Add Feedback page", () => {
       /feature/i,
     );
   });
+
+  test("lets you choose a category with the keyboard", async ({ page }) => {
+    const category = page.getByRole("combobox", { name: /category/i });
+
+    await category.focus();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByRole("listbox")).toBeHidden();
+    await expect(
+      page.getByRole("combobox", { name: /category/i }),
+    ).not.toHaveText(/feature/i);
+  });
 });

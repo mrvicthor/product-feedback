@@ -77,4 +77,13 @@ test.describe("Add Feedback page", () => {
       "true",
     );
   });
+
+  test("rejects a title that is too short", async ({ page }) => {
+    await fillForm(page, {
+      title: "Hi",
+      category: "bug",
+      detail:
+        "I would like a dark theme so users can switch between light and dark",
+    });
+  });
 });

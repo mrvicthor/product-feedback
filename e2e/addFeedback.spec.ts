@@ -43,4 +43,10 @@ test.describe("Add Feedback page", () => {
       page.getByRole("link", { name: "Add a dark theme" }),
     ).toBeVisible();
   });
+
+  test("defaults the category to Feature", async ({ page }) => {
+    await expect(page.getByRole("combobox", { name: /category/i })).toHaveText(
+      /feature/i,
+    );
+  });
 });

@@ -63,4 +63,18 @@ test.describe("Add Feedback page", () => {
       page.getByRole("combobox", { name: /category/i }),
     ).not.toHaveText(/feature/i);
   });
+
+  test("shows errors when submitted empty", async ({ page }) => {
+    await fillForm(page, {
+      title: "",
+      category: "feature",
+      detail: "",
+    });
+    await page.getByRole("button", { name: /add feedback/i }).click();
+    await expect(page.getByText(/can't be empty/i)).toHaveCount(2);
+    await expect(page.getByLabel(/feedback title/i)).toHaveAttribute(
+      "aria-invalid",
+      "true",
+    );
+  });
 });

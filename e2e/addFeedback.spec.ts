@@ -85,5 +85,7 @@ test.describe("Add Feedback page", () => {
       detail:
         "I would like a dark theme so users can switch between light and dark",
     });
+    await page.getByRole("button", { name: /add feedback/i }).click();
+    await expect(page.getByText(/at least 5 characters/i)).toBeVisible();
   });
 });

@@ -105,19 +105,19 @@ const feedbacks: ProductRequest[] = [
 
 describe("createRoadmapPageModel", () => {
   it("visible feedback should match active tab", () => {
-    const viewModel = createRoadmapPageModel(feedbacks, "live", []);
-    expect(viewModel.feedbacks.length).toEqual(1);
+    const viewModel = createRoadmapPageModel(feedbacks, []);
+    expect(viewModel.roadmap.length).toBe(4);
   });
 
   it("should return the total count of each roadmap", () => {
-    const viewModel = createRoadmapPageModel(feedbacks, "in-progress", []);
+    const viewModel = createRoadmapPageModel(feedbacks, []);
     expect(viewModel.inProgressCount).toEqual(2);
     expect(viewModel.liveCount).toEqual(1);
     expect(viewModel.plannedCount).toEqual(1);
   });
 
   it("should return empty if source data is not available", () => {
-    const viewModel = createRoadmapPageModel([], "in-progress", []);
-    expect(viewModel.isEmpty).toBe(true);
+    const viewModel = createRoadmapPageModel([], []);
+    expect(viewModel.roadmap.length).toEqual(0);
   });
 });

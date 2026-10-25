@@ -14,6 +14,8 @@ export const STATUSES = [
   "live",
 ] as const;
 
+export const ROADMAPSTATUS = ["planned", "in-progress", "live"] as const;
+
 export const SORT_OPTIONS = [
   { value: "most_upvotes", label: "Most Upvotes" },
   { value: "least_upvotes", label: "Least Upvotes" },
@@ -25,9 +27,11 @@ export type SortBy = (typeof SORT_OPTIONS)[number]["value"];
 const EMPTY = "Can't be empty";
 export const categorySchema = z.enum(CATEGORIES);
 export const statusSchema = z.enum(STATUSES);
+export const roadmapStatus = z.enum(ROADMAPSTATUS);
 
 export type Category = z.infer<typeof categorySchema>;
 export type Status = z.infer<typeof statusSchema>;
+export type RoadmapStatus = z.infer<typeof roadmapStatus>;
 
 export const userSchema = z.object({
   image: z.string(),

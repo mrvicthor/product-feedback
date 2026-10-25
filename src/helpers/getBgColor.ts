@@ -1,10 +1,9 @@
-import type { Status } from "../domain/schema";
+import type { RoadmapStatus } from "../domain/schema";
 
-const roadmap: Record<Status, string> = {
+const roadmap: Record<RoadmapStatus, string> = {
   "in-progress": "#AD1FEA",
   planned: "#F49F85",
   live: "#62BCFA",
-  suggestion: "#62BCFA",
 };
 
-export const getBgColor = (value: Status) => roadmap[value];
+export const getBgColor = (value: RoadmapStatus) => roadmap[value];

@@ -1,24 +1,25 @@
 import { useMemo, useRef, useState, type KeyboardEvent } from "react";
-import type { ProductRequest, Status } from "../domain/schema";
+import type { RoadmapStatus } from "../domain/schema";
 import { getBgColor } from "../helpers/getBgColor";
 import commentIcon from "/assets/shared/icon-comments.svg";
 import { Link } from "react-router";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import { handleUpvote } from "../helpers/handleUpvote";
 import { ChevronUp } from "lucide-react";
+import type { FeedbackCardModel } from "../useCases/viewProductFeedback/productFeedbackPageModel";
 
 type Props<T extends string> = {
   tabs: readonly T[];
-  feedbacks: ProductRequest[];
+  feedbacks: FeedbackCardModel[];
 };
 const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { upvotedSet, setUpvotedSet } = useFeedbackContext();
-  const filteredTabs = tabs.filter((tab) => tab !== "suggestion");
+
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   function handleKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
-    const last = filteredTabs.length - 1;
+    const last = tabs.length - 1;
     const targets: Record<string, number> = {
       ArrowRight: activeIndex === last ? 0 : activeIndex + 1,
       ArrowLeft: activeIndex === 0 ? last : activeIndex - 1,
@@ -30,66 +31,64 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
     setActiveIndex(targets[e.key]);
     tabRefs.current[targets[e.key]]?.focus();
   }
-  const visibleFeedbacks = useMemo(
-    () => feedbacks.filter((f) => f.status === filteredTabs[activeIndex]),
-    [activeIndex, feedbacks, filteredTabs],
+
+  const visibleRoadmap = useMemo(
+    () => feedbacks.filter((f) => f.status === tabs[activeIndex]),
+    [activeIndex, feedbacks, tabs],
   );
 
   return (
     <div className="md:hidden">
-      <div role="tablist" className="flex justify-between items-center">
-        {tabs
-          .filter((option) => option !== "suggestion")
-          .map((option, index) => (
-            <button
-              ref={(el) => {
-                tabRefs.current[index] = el;
-              }}
-              key={index}
-              id={`${option}-tab`}
-              type="button"
-              role="tab"
-              aria-selected={index === activeIndex ? "true" : "false"}
-              aria-controls={`${option}-panel`}
-              tabIndex={index === activeIndex ? 0 : -1}
-              className={`flex flex-1 justify-center items-center capitalize ${index === activeIndex ? "border-b-4 text-[#3A4374]" : "border-0 text-gray-400"} text-[13px] font-bold focus-visible:text-[#3A4374] py-5`}
-              style={{
-                borderBottomColor: getBgColor(option as Status),
-              }}
-              onKeyDown={handleKeyDown}
-              onClick={() => setActiveIndex(index)}
-            >
-              {option} ({feedbacks.filter((f) => f.status === option).length})
-            </button>
-          ))}
+      <div
+        role="tablist"
+        className="flex justify-between items-center border-b border-gray-400"
+      >
+        {tabs.map((option, index) => (
+          <button
+            ref={(el) => {
+              tabRefs.current[index] = el;
+            }}
+            key={index}
+            id={`${option}-tab`}
+            type="button"
+            role="tab"
+            aria-selected={index === activeIndex ? "true" : "false"}
+            aria-controls={`${option}-panel`}
+            tabIndex={index === activeIndex ? 0 : -1}
+            className={`flex flex-1 justify-center items-center capitalize ${index === activeIndex ? "border-b-4 text-[#3A4374]" : "border-0 text-gray-400"} text-[13px] font-bold focus-visible:text-[#3A4374] py-5`}
+            style={{
+              borderBottomColor: getBgColor(option as RoadmapStatus),
+            }}
+            onKeyDown={handleKeyDown}
+            onClick={() => setActiveIndex(index)}
+          >
+            {option} ({feedbacks.filter((r) => r.status === option).length})
+          </button>
+        ))}
       </div>
       <div
-        id={`${filteredTabs[activeIndex]}-panel`}
+        id={`${tabs[activeIndex]}-panel`}
         role="tabpanel"
-        aria-labelledby={`${filteredTabs[activeIndex]}-tab`}
+        aria-labelledby={`${tabs[activeIndex]}-tab`}
         className="p-6"
       >
         <h2 className="text-lg font-bold text-[#3A4374] capitalize">
-          {filteredTabs[activeIndex]} (
-          {
-            feedbacks.filter((f) => f.status === filteredTabs[activeIndex])
-              .length
-          }
-          )
+          {tabs[activeIndex]} (
+          {feedbacks.filter((r) => r.status === tabs[activeIndex]).length})
         </h2>
         <p className="text-[13px] text-[#647196]">
-          {filteredTabs[activeIndex] === "in-progress"
+          {tabs[activeIndex] === "in-progress"
             ? "Features currently being developed"
-            : filteredTabs[activeIndex] === "planned"
+            : tabs[activeIndex] === "planned"
               ? "Ideas prioritized for research"
               : "Released features"}
         </p>
         <ul className="mt-6 flex flex-col gap-4">
-          {visibleFeedbacks.map((f) => (
+          {visibleRoadmap.map((f) => (
             <li
               key={f.id}
               style={{
-                borderTopColor: getBgColor(filteredTabs[activeIndex] as Status),
+                borderTopColor: getBgColor(tabs[activeIndex] as RoadmapStatus),
               }}
               className="border-t-4 rounded-lg px-6 pt-5.5 bg-white pb-6"
             >
@@ -97,13 +96,13 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
                 <div
                   style={{
                     backgroundColor: getBgColor(
-                      filteredTabs[activeIndex] as Status,
+                      tabs[activeIndex] as RoadmapStatus,
                     ),
                   }}
                   className="h-2 w-2 rounded-full"
                 />
                 <span className="text-[13px] text-[#647196] capitalize">
-                  {f.status}
+                  {f.status === "in-progress" ? "in progress" : f.status}
                 </span>
               </div>
               <Link
@@ -133,7 +132,7 @@ const Tabs = <T extends string>({ tabs, feedbacks }: Props<T>) => {
                 <div className="flex items-center gap-2">
                   <img src={commentIcon} />{" "}
                   <span className="font-bold text-[#3A4374] text-[13px]">
-                    {f.comments?.length}
+                    {f.commentCount}
                   </span>
                 </div>
               </div>

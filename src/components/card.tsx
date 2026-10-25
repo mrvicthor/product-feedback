@@ -1,14 +1,16 @@
 import { ChevronUp } from "lucide-react";
-import type { ProductRequest } from "../domain/schema";
 import { handleUpvote } from "../helpers/handleUpvote";
 import { useFeedbackContext } from "../hooks/useFeedbackContext";
 import commentIcon from "/assets/shared/icon-comments.svg";
+import type { FeedbackCardModel } from "../useCases/viewProductFeedback/productFeedbackPageModel";
+
 type CardProps = {
-  feedback: ProductRequest;
+  feedback: FeedbackCardModel;
   cardColor: string;
 };
 const Card = ({ feedback, cardColor }: CardProps) => {
-  const { title, description, category, upvotes, comments, id } = feedback;
+  const { title, description, category, upvotes, commentCount, id, status } =
+    feedback;
   const { setUpvotedSet, upvotedSet } = useFeedbackContext();
   return (
     <div>
@@ -21,7 +23,9 @@ const Card = ({ feedback, cardColor }: CardProps) => {
             style={{ backgroundColor: cardColor }}
             className="h-2 w-2 rounded-full"
           />{" "}
-          <span className="text-[#647196] mr-auto">Planned</span>
+          <span className="text-[#647196] mr-auto capitalize">
+            {status === "in-progress" ? "in progress" : status}
+          </span>
         </div>
         <h3 className="mt-2 text-[#3A4374] text-lg font-bold hover:text-[#4661E6]">
           {title}
@@ -34,7 +38,7 @@ const Card = ({ feedback, cardColor }: CardProps) => {
           <button
             onClick={() => handleUpvote(id, upvotedSet, setUpvotedSet)}
             type="button"
-            className={`${feedback.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg[#CFD7FF] text-[#3A4374]"} flex gap-2 items-center px-4 py-2.75 rounded-lg`}
+            className={`${feedback.isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg-[#CFD7FF] text-[#3A4374]"} flex gap-2 items-center px-4 py-2.75 rounded-lg cursor-pointer`}
           >
             <ChevronUp
               size={10}
@@ -44,7 +48,7 @@ const Card = ({ feedback, cardColor }: CardProps) => {
           </button>
           <div className="flex items-center gap-2">
             <img src={commentIcon} alt="comment icon" />{" "}
-            <span className="font-bold text-[#3A4374]">{comments?.length}</span>
+            <span className="font-bold text-[#3A4374]">{commentCount}</span>
           </div>
         </div>
       </div>

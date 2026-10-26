@@ -47,6 +47,7 @@ export const CommentItem = ({
           type="button"
           onClick={onReplyClick}
           aria-expanded={isReplying}
+          aria-label={`Reply to ${name}`}
           className="cursor-pointer text-[13px] font-semibold text-[#4661E6] hover:underline"
         >
           Reply

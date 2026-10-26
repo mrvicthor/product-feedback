@@ -5,6 +5,7 @@ const getDetailsUpvote = (page: Page) => {
   const button = page.getByRole("button", { name: `Upvote ${TITLE}` });
   return { button, count: button.getByTestId("upvote-count") };
 };
+
 test.describe("feedback details page", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
@@ -33,5 +34,16 @@ test.describe("feedback details page", () => {
     await button.click();
     await expect(count).toHaveText(String(before + 1));
     await expect(button).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("should undo the upvote on second click", async ({ page }) => {
+    const { button, count } = getDetailsUpvote(page);
+    const before = Number(await count.textContent());
+
+    await button.click();
+    await button.click();
+
+    await expect(count).toHaveText(String(before));
+    await expect(button).toHaveAttribute("aria-pressed", "false");
   });
 });

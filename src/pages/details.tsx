@@ -41,10 +41,6 @@ const Details = () => {
     commentCount: totalComments,
     isUpvoted,
   } = detail;
-  //   const totalComments = comments.reduce(
-  //     (total, c) => total + 1 + (c.replies?.length ?? 0),
-  //     0,
-  //   );
 
   const toggleReply = (key: string) =>
     setActiveReplyKey((current) => (current === key ? null : key));
@@ -68,7 +64,6 @@ const Details = () => {
 
   return (
     <div className="mx-auto h-dvh max-w-182.5 px-6 py-6 md:px-10 md:py-14 flex flex-col gap-6">
-      {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between">
         <Link
           to="/"

@@ -30,6 +30,8 @@ const DetailCard = ({
     <div className="shrink-0 rounded-[10px] bg-white p-6 md:p-8 flex items-start gap-10">
       <button
         type="button"
+        aria-label={`Upvote ${title}`}
+        aria-pressed={isUpvoted}
         onClick={() => handleUpvote(Number(id), upvotedSet, setUpvotedSet)}
         className={`flex h-13 w-10 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-[10px] ${isUpvoted ? "bg-[#4661E6] text-white" : "bg-[#F2F4FE] hover:bg-[#CFD7FF] text-[#3A4374]"}`}
       >
@@ -38,7 +40,9 @@ const DetailCard = ({
           color={isUpvoted ? "white" : "#3A4374"}
           strokeWidth={3}
         />
-        <span className="text-[13px] font-bold">{upvotes}</span>
+        <span data-testid="upvote-count" className="text-[13px] font-bold">
+          {upvotes}
+        </span>
       </button>
       <article className="min-w-0 flex-1">
         <h1 className="text-lg font-bold text-[#3A4374]">{title}</h1>

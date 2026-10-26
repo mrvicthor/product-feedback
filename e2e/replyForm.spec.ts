@@ -40,4 +40,11 @@ test.describe("Reply form", () => {
     await expect(replyForm(page)).toBeHidden();
     await expect(replyButton(page)).toHaveAttribute("aria-expanded", "false");
   });
+
+  test("only one reply form is open at a time", async ({ page }) => {
+    await replyButton(page).click();
+    await replyButton(page, "Thomas Hood").click();
+
+    await expect(replyForm(page)).toHaveCount(1);
+  });
 });

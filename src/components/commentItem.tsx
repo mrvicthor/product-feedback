@@ -5,7 +5,7 @@ type CommentItemProps = {
   username: string;
   image: string;
   content: string;
-  replyingTo: string;
+  replyingTo?: string;
   isReplying: boolean;
   onReplyClick: () => void;
   onCancelReply: () => void;

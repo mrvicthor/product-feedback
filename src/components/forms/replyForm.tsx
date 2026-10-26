@@ -9,7 +9,7 @@ type ReplyFormProps = {
     name: string;
     username: string;
   };
-  replyingTo: string;
+  replyingTo?: string;
 };
 
 const MAX_CHARS = 250;
@@ -25,7 +25,7 @@ export const ReplyForm = ({
 }: ReplyFormProps) => {
   "use no memo";
   const { handleSubmit, register, errors, submitReply } = useReplyForm(
-    replyingTo,
+    String(replyingTo),
     onSubmit,
     user,
   );
@@ -56,7 +56,6 @@ export const ReplyForm = ({
       </div>
 
       <button
-        aria-label="post-reply"
         type="submit"
         className="shrink-0 self-end cursor-pointer rounded-[10px] bg-[#AD1FEA] px-6 py-3 text-sm font-bold text-[#F2F4FE] transition-colors hover:bg-[#C75AF6] md:self-auto"
       >

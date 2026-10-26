@@ -112,7 +112,6 @@ const Details = () => {
                     username={c.user.username}
                     image={c.user.image}
                     content={c.content}
-                    replyingTo={c.user.username}
                     user={user}
                     isReplying={activeReplyKey === commentKey}
                     onReplyClick={() => toggleReply(commentKey)}

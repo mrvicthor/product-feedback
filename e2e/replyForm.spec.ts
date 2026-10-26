@@ -76,4 +76,7 @@ test.describe("Reply form", () => {
       new RegExp(`^${before + 1} comments?`, "i"),
     );
   });
+  test("top-level comments do not show an @mention", async ({ page }) => {
+    await expect(page.getByText("Awesome idea!")).not.toContainText("@");
+  });
 });

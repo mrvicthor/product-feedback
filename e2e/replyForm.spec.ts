@@ -32,4 +32,12 @@ test.describe("Reply form", () => {
       page.getByRole("textbox", { name: `Reply to ${HANDLE}` }),
     ).toBeFocused();
   });
+
+  test("closes when Reply is clicked again", async ({ page }) => {
+    await replyButton(page).click();
+    await replyButton(page).click();
+
+    await expect(replyForm(page)).toBeHidden();
+    await expect(replyButton(page)).toHaveAttribute("aria-expanded", "false");
+  });
 });

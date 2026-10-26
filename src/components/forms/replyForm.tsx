@@ -1,6 +1,4 @@
-import { useForm } from "react-hook-form";
-import { type Reply, replySchema } from "../../domain/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useReplyForm } from "../../hooks/useReplyForm";
 
 type ReplyFormProps = {
   username: string;
@@ -26,24 +24,11 @@ export const ReplyForm = ({
   replyingTo,
 }: ReplyFormProps) => {
   "use no memo";
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    reset,
-  } = useForm<Reply>({
-    resolver: zodResolver(replySchema),
-    defaultValues: {
-      content: "",
-      user,
-      replyingTo: replyingTo as string,
-    },
-  });
-
-  const submitReply = (data: Reply) => {
-    onSubmit(data.content);
-    reset();
-  };
+  const { handleSubmit, register, errors, submitReply } = useReplyForm(
+    replyingTo,
+    onSubmit,
+    user,
+  );
 
   return (
     <form

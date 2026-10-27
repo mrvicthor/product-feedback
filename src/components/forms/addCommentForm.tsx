@@ -26,6 +26,7 @@ const AddCommentForm = ({ id, comments }: Props) => {
     <form
       className="shrink-0 rounded-[10px] bg-white px-6 py-6 md:px-8"
       onSubmit={handleSubmit(submitComment)}
+      aria-label="add comment form"
     >
       <label htmlFor="new-comment" className="text-lg font-bold text-[#3A4374]">
         Add Comment

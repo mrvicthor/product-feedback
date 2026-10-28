@@ -5,13 +5,14 @@ import {
   type ProductRequest,
 } from "../domain/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "react-toastify";
 import type { ActionType } from "../domain/feedback";
+import { useNavigate } from "react-router";
 
 export function useEditFeedbackForm(
   feedback: ProductRequest,
   dispatch: React.ActionDispatch<[action: ActionType]>,
 ) {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -37,7 +38,7 @@ export function useEditFeedbackForm(
       category: data.category,
       status: data.status,
     });
-    toast.success("Feedback updated successfully");
+    navigate(`/detail/${feedback.id}`);
   };
   return {
     handleSubmit,

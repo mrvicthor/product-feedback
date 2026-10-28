@@ -1,6 +1,5 @@
 import { CATEGORIES, STATUSES, type ProductRequest } from "../../domain/schema";
 import { Controller } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 import CustomSelectField from "./customSelectField";
 import InputField from "./inputField";
@@ -19,11 +18,10 @@ const EditFeedbackForm = ({ feedback }: Props) => {
 
   const { handleSubmit, onSubmit, errors, register, control } =
     useEditFeedbackForm(feedback, dispatch);
-  console.log({ errors });
   return (
     <section className="mx-auto max-w-xl mt-12 px-6 md:px-0">
       <Link
-        to="/"
+        to={`/detail/${feedback.id}`}
         className="flex items-center gap-2 font-bold text-[#647196] text-sm"
       >
         <img src={arrowLeft} /> Go Back
@@ -90,7 +88,7 @@ const EditFeedbackForm = ({ feedback }: Props) => {
               delete
             </button>
             <Link
-              to="/"
+              to={`/detail/${feedback.id}`}
               className="md:ml-auto cursor-pointer hover:opacity-80 bg-[#3A4374] capitalize rounded-xl text-[#F2F4FE] font-bold py-[12.5px] px-6 flex items-center justify-center"
             >
               cancel
@@ -104,7 +102,6 @@ const EditFeedbackForm = ({ feedback }: Props) => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </section>
   );
 };

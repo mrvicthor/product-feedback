@@ -92,5 +92,8 @@ test.describe("Edit Feedback page", () => {
   }) => {
     await page.getByRole("link", { name: /cancel/i }).click();
     await expect(page).toHaveURL(`/detail/1`);
+    await expect(
+      page.getByRole("heading", { name: /editing 'add tags for solutions'/i }),
+    ).toBeVisible();
   });
 });

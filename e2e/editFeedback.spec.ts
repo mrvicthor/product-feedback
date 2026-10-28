@@ -86,4 +86,11 @@ test.describe("Edit Feedback page", () => {
       page.getByRole("heading", { name: /add tags for southampton/i }),
     ).toBeVisible();
   });
+
+  test("should go back to details page when cancel button is clicked", async ({
+    page,
+  }) => {
+    await page.getByRole("link", { name: /cancel/i }).click();
+    await expect(page).toHaveURL(`/detail/1`);
+  });
 });

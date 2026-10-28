@@ -92,15 +92,13 @@ test.describe("Edit Feedback page", () => {
   }) => {
     await page.getByRole("link", { name: /cancel/i }).click();
     await expect(page).toHaveURL(`/detail/1`);
-    await expect(
-      page.getByRole("heading", { name: /editing 'add tags for solutions'/i }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: TITLE })).toBeVisible();
   });
 
   test("should render 'Feedback not found' when delete button is clicked", async ({
     page,
   }) => {
     await page.getByRole("button", { name: /delete/i }).click();
-    await expect(page.getByText("Feedback not found.")).toBeVisible();
+    await expect(page).toHaveURL("/");
   });
 });

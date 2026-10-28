@@ -8,6 +8,7 @@ import editIcon from "/assets/shared/icon-edit-feedback.svg";
 import { useFeedbackContext } from "../../hooks/useFeedbackContext";
 import TextareaField from "./textareaField";
 import { useEditFeedbackForm } from "../../hooks/useEditFeedbackForm";
+import { useNavigate } from "react-router";
 
 type Props = {
   feedback: ProductRequest;
@@ -15,7 +16,7 @@ type Props = {
 const EditFeedbackForm = ({ feedback }: Props) => {
   "use no memo";
   const { dispatch } = useFeedbackContext();
-
+  const navigate = useNavigate();
   const { handleSubmit, onSubmit, errors, register, control } =
     useEditFeedbackForm(feedback, dispatch);
   return (
@@ -79,9 +80,10 @@ const EditFeedbackForm = ({ feedback }: Props) => {
 
           <div className="flex flex-col md:flex-row md:justify-between gap-4">
             <button
-              onClick={() =>
-                dispatch({ type: "delete_feedback", feedbackId: feedback.id })
-              }
+              onClick={() => {
+                dispatch({ type: "delete_feedback", feedbackId: feedback.id });
+                navigate("/");
+              }}
               type="button"
               className="bg-[#D73737] order-last md:order-first text-white rounded-xl py-[12.5px] px-6 cursor-pointer font-bold capitalize hover:opacity-40"
             >

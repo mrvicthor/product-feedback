@@ -96,4 +96,11 @@ test.describe("Edit Feedback page", () => {
       page.getByRole("heading", { name: /editing 'add tags for solutions'/i }),
     ).toBeVisible();
   });
+
+  test("should render 'Feedback not found' when delete button is clicked", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: /delete/i }).click();
+    await expect(page.getByText("Feedback not found.")).toBeVisible();
+  });
 });
